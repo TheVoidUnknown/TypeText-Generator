@@ -1,5 +1,6 @@
 # TypeText-Generator
 A dialogue generator for Project Arrhythmia. Alpha oriented, Legacy supported. (Hopefully)
+
 **You don't have to download this script to use it, you can just click on `typetext_generator.js` and copy the code to your clipboard.**
 
 Using the script is hilariously simple. Take the script, run it in a JS console, for instance your browser console. 
