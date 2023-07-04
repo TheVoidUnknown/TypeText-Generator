@@ -1,11 +1,12 @@
 // TypeText generator v1.1 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
-let text = "superfunkyrobot.exe -f" // Text to "type" out
+let legacy = false // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
+let text = "Sample Text" // Text to "type" out
 let letter_delay = 1.5 // How long it takes to finish "typing" the text, in seconds
-let letter_space = 1.75 // Spacing between letters, 2 is best for default font.
-let obj_interval = 0.01 // How much to increment parent offset per letter
+let letter_space = 1.75 // Spacing between letters, 1.75 is best for default font.
+let obj_interval = 0.01 // How much to increment parent offset per letter. Not yet supported in Legacy.
 let obj_depth = 20 // Render depth of all the objects
-let obj_color = 8 // Color of the objects, 0 is the leftmost color of the theme
+let obj_color = 0 // Color of the objects, 0 is the leftmost color of the theme
 let obj_bin = 1 // Starting bin for each letter
 let lifetime = 5 // How many seconds to live after text is done
 let obj_startPos = 0 // When the object spawns relative to the prefab. Not very useful to mess with.
