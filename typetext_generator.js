@@ -1,8 +1,8 @@
 // TypeText generator v1.21 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 let prefabName = "TypeText Sample" // The name of the prefab
-let legacy = false // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-let text = "Line<br>Break" // Text to "type" out
+let legacy = true // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
+let text = "Beanes" // Text to "type" out
 let letter_delay = 2 // How long it takes to finish "typing" the text, in seconds
 let letter_space = 1.75 // Spacing between letters, 1.75 is best for default font.
 let line_space = 3 // Spacing between lines when <br> is used
@@ -59,7 +59,7 @@ let parent_id = shuffle("#▆¾hR:W:✿p<<%n¾@".split("")).join("") // dont eve
 function makeBlankObject(pid,char,pos,color,depth,startPos,offset,letterfont) {
   let id = shuffle(pid.split("")).join("") // Create a new ID, pray to RNJesus that it doesnt make a duplicate ID
   if (legacy) {
-    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}}`
+    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}},`
   } else {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${lifetime},"ot":2,"n":"Text ${char}","text":"<font=${letterfont}>${extraTags}${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${obj_bin},"co":true,"l":5},"e":[{"k":[{"ct":"Linear","ev":[0,0]}]},{"k":[{"ct":"Linear","ev":[1.0,1.0]}]},{"k":[{"ct":"Linear","ev":[0]}]},{"k":[{"ct":"Linear","ev":[${color}]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   }
@@ -214,5 +214,5 @@ if (legacy) {
 }
 // Spit out the prefab in plaintext
 console.log(prefab_padding_start + makeCursor(parent_id,0,obj_color,obj_depth,0,cursor) + objects.join() + "]}")
-console.log(`Paste to "TypeText_${rand}.vgp" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
+console.log(`Paste to "${prefabName}.${legacy == true ? "lsp" : "vgp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
