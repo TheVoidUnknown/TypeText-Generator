@@ -1,8 +1,8 @@
-// TypeText generator v1.21 by VoidUnknown
+// TypeText generator v1.2 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 let prefabName = "TypeText Sample" // The name of the prefab
 let legacy = true // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-let text = "Sample Text" // Text to "type" out
+let text = "Line<br>Break" // Text to "type" out
 let letter_delay = 2 // How long it takes to finish "typing" the text, in seconds
 let letter_space = 1.75 // Spacing between letters, 1.75 is best for default font.
 let line_space = 3 // Spacing between lines when <br> is used
@@ -59,7 +59,7 @@ let parent_id = shuffle("#▆¾hR:W:✿p<<%n¾@".split("")).join("") // dont eve
 function makeBlankObject(pid,char,pos,color,depth,startPos,offset,letterfont) {
   let id = shuffle(pid.split("")).join("") // Create a new ID, pray to RNJesus that it doesnt make a duplicate ID
   if (legacy) {
-    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}},`
+    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}}`
   } else {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${lifetime},"ot":2,"n":"Text ${char}","text":"<font=${letterfont}>${extraTags}${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${obj_bin},"co":true,"l":5},"e":[{"k":[{"ct":"Linear","ev":[0,0]}]},{"k":[{"ct":"Linear","ev":[1.0,1.0]}]},{"k":[{"ct":"Linear","ev":[0]}]},{"k":[{"ct":"Linear","ev":[${color}]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   }
@@ -117,11 +117,11 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
 
   // Fill missing keyframes with defaults, to prevent invalid objects
   // I know it could be more efficient i dont care
-  if (startKeyframes["move"].length == 0) {startKeyframes["move"].push(makeDoubleStartKeyframe(pos,0,"Linear"))}
+  if (startKeyframes["move"].length == 0) {startKeyframes["move"].push(makeDoubleStartKeyframe(pos,pos_y,"Linear"))}
   if (startKeyframes["scale"].length == 0) {startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,2.0,"Linear"))}
   if (startKeyframes["rotation"].length == 0) {startKeyframes["rotation"].push(makeSingleStartKeyframe(0,"Linear"))}
   if (startKeyframes["color"].length == 0) {startKeyframes["color"].push(makeSingleStartKeyframe(colorEase,"Linear"))}
-  if (keyframes["move"].length == 0) {keyframes["move"].push(makeDoubleKeyframe(`${easeTime}`,pos,0,"Instant"))}
+  if (keyframes["move"].length == 0) {keyframes["move"].push(makeDoubleKeyframe(`${easeTime}`,pos,pos_y,"Instant"))}
   if (keyframes["scale"].length == 0) {keyframes["scale"].push(makeDoubleKeyframe(`${easeTime}`,2.0,2.0,"Instant"))}
   if (keyframes["rotation"].length == 0) {keyframes["rotation"].push(makeSingleKeyframe(`${easeTime}`,0,"Instant"))}
   if (keyframes["color"].length == 0) {keyframes["color"].push(makeSingleKeyframe(`${easeTime}`,color,"OutSine"))}
@@ -177,7 +177,7 @@ function makeCursor(pid,pos,color,depth,startPos,cursorChar) {
   keyframes.join("")
   id = shuffle(pid.split("")).join("")
   if (legacy) {
-    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${cursorChar}","name":"Text Cursor","shape":"4","akt":2,"ako":${letter_delay},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin-1}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"},${keyframes}],"sca":[{"t":"0","x":"2","y":"2"},{"t":${cursorTime+(letter_delay/text.length)},"x":"0","y":"0","ct":"Instant"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}}`
+    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${cursorChar}","name":"Text Cursor","shape":"4","akt":2,"ako":${letter_delay},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin+1}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"},${keyframes}],"sca":[{"t":"0","x":"2","y":"2"},{"t":${cursorTime+(letter_delay/text.length)},"x":"0","y":"0","ct":"Instant"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}}`
   } else {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${lifetime},"ot":2,"n":"Text Cursor","text":"${cursorChar}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${obj_bin+1},"co":true,"l":5},"e":[{"k":[{"ct":"Linear","ev":[0.0,0.0]},${keyframes}]},{"k":[{"ct":"Linear","ev":[1.0,2.0]},{"ct":"Instant","t":${cursorTime+(letter_delay/text.length)},"ev":[0.0,0.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]},{"k":[{"ct":"Linear","ev":[${color}]}]}],"p_t":"111","p_o": [0,0,0],"d":${depth},"st":${startPos}},`
   }
@@ -214,5 +214,5 @@ if (legacy) {
 }
 // Spit out the prefab in plaintext
 console.log(prefab_padding_start + makeCursor(parent_id,0,obj_color,obj_depth,0,cursor) + objects.join() + "]}")
-console.log(`Paste to "${prefabName}.${legacy == true ? "lsp" : "vgp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
+console.log(`Paste to "TypeText_${rand}.vgp" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
