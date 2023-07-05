@@ -1,4 +1,4 @@
-// TypeText generator v1.2 by VoidUnknown
+// TypeText generator v1.22 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 let prefabName = "TypeText Sample" // The name of the prefab
 let legacy = true // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
