@@ -2,7 +2,7 @@
 // Please report bugs to @thevoidunknown via discord
 let prefabName = "TypeText Sample" // The name of the prefab
 let legacy = true // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-let text = "Beanes" // Text to "type" out
+let text = "Sample Text" // Text to "type" out
 let letter_delay = 2 // How long it takes to finish "typing" the text, in seconds
 let letter_space = 1.75 // Spacing between letters, 1.75 is best for default font.
 let line_space = 3 // Spacing between lines when <br> is used
