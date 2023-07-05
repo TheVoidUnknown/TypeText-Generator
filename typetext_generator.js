@@ -1,8 +1,8 @@
-// TypeText generator v1.2 by VoidUnknown
+// TypeText generator v1.21 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 let prefabName = "TypeText Sample" // The name of the prefab
 let legacy = false // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-let text = "Sample Text" // Text to "type" out
+let text = "Line<br>Break" // Text to "type" out
 let letter_delay = 2 // How long it takes to finish "typing" the text, in seconds
 let letter_space = 1.75 // Spacing between letters, 1.75 is best for default font.
 let line_space = 3 // Spacing between lines when <br> is used
@@ -127,7 +127,7 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
   if (keyframes["color"].length == 0) {keyframes["color"].push(makeSingleKeyframe(`${easeTime}`,color,"OutSine"))}
 
   if (legacy) {
-    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[{"t":"0","x":"${pos}","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"${color}"}]}}`
+    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${obj_bin}","layer":"${obj_layer}"},"events":{"pos":[${startKeyframes["move"]},${keyframes["move"]}],"sca":[${startKeyframes["scale"]},${keyframes["scale"]}],"rot":[${startKeyframes["rotation"]},${keyframes["rotation"]}],"col":[${startKeyframes["color"]},${keyframes["color"]}]}}`
   } else {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${lifetime},"ot":2,"n":"Text ${char}","text":"<font=${letterfont}>${extraTags}${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   }
