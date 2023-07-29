@@ -8,7 +8,7 @@
   All other tags such as <b>, <i>, and etc must be put in extraTags.
 */
 
-let settings = {
+let params = {
   "legacy": false, // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
   "prefabName": "TypeText Preview", // The name of the prefab
   "text": "TypeText Version 1.3!", // Text to "type" out
@@ -45,6 +45,10 @@ let settings = {
   "obj_bin": 1, // Starting bin for each letter
   "obj_interval": 0.05, // How much to increment parent offset per letter. Not yet supported in Legacy.
 }
+
+function generatePrefab(settings) {
+
+
 
 let customFontDict = {
   "letter_space": 48,
@@ -96,6 +100,7 @@ let customFontDict = {
   "y":`<line-height=14.5><cspace=-0.65><#00000000>████████████████<br>████████████████<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████████████<#00000000>██<br>████<#${settings.textColor}ff>████████<#00000000>████<br>████<#${settings.textColor}ff>████████<#00000000>████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>`, 
   "z":`<line-height=14.5><cspace=-0.65><#00000000>████████████████<br>████████████████<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█████████<#${settings.textColor}ff>██████<#00000000>█<br>█████████<#${settings.textColor}ff>██████<#00000000>█<br>███████<#${settings.textColor}ff>██████<#00000000>███<br>███████<#${settings.textColor}ff>██████<#00000000>███<br>█████<#${settings.textColor}ff>██████<#00000000>█████<br>█████<#${settings.textColor}ff>██████<#00000000>█████<br>███<#${settings.textColor}ff>██████<#00000000>███████<br>███<#${settings.textColor}ff>██████<#00000000>███████<br>█<#${settings.textColor}ff>██████<#00000000>█████████<br>█<#${settings.textColor}ff>██████<#00000000>█████████<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>`
 }
+
 
 if (settings.customFont) {
   settings.letter_space = customFontDict.letter_space
@@ -352,6 +357,10 @@ if (settings.legacy) {
 if (settings.cursor != ""){
   objects.push(makeCursor(parent_id,0,settings.obj_color,settings.obj_depth,0,settings.cursor))
 }
-console.log(prefab_padding_start + objects.join() + "]}")
+
+
+
 console.log(`Paste to "TypeText_${rand}.vgp" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
+return (prefab_padding_start + objects.join() + "]}")
+}
