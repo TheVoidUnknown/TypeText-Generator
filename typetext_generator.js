@@ -1,4 +1,4 @@
-// TypeText generator v1.3 by VoidUnknown
+// TypeText generator v1.31 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 /* 
   Note:
@@ -8,23 +8,23 @@
   All other tags such as <b>, <i>, and etc must be put in extraTags.
 */
 
-let params = {
+let settings = {
   "legacy": false, // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-  "prefabName": "TypeText Preview", // The name of the prefab
-  "text": "TypeText Version 1.3!", // Text to "type" out
+  "prefabName": "Typetext Showcase", // The name of the prefab
+  "text": "Typetext Version 1.31!", // Text to "type" out
   "letter_space": 1.75, // Spacing between letters, 1.75 is best for default font.
   "line_space": 3, // Spacing between lines when <br> is used
-  "letter_delay": 2, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
+  "letter_delay": 0.5, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
   "obj_depth": 20, // Render depth of all the objects
   "obj_color": 0, // Color of the objects, 0 is the leftmost color of the theme
   "colorEase": 3, // The color to ease from when the letter spawns
   "lifetime": 10, // How many seconds to live after text is done
   "obj_layer": 1, // Doesn't matter, is only used for filler.
   "font": ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][0], // Font to use, 0 is default font. Disabled on legacy.
-  "extraTags": "",// Extra HTML tags to use on the text, such as <b> or <i>
+  "extraTags": "<b>",// Extra HTML tags to use on the text, such as <b> or <i>
   "cursor": "", //"█" // Optional, is placed in front of each letter to sell the illusion of typing in a terminal
-  "easeTime": 0.4, // The time it takes each letter to ease
-  "easeType": "popup", // The "fashion" in which letters appear
+  "easeTime": 0.75, // The time it takes each letter to ease
+  "easeType": "custom", // The "fashion" in which letters appear
   /*
         "flutter" - Letters will scale from left to right with outelastic
         "flutter-stack" - Letters will scale from left to right with outcirc, as well as spawn stacked on the last letter then move to its position
@@ -40,15 +40,11 @@ let params = {
 
   // Here be dragons! Dont use these settings unless you know what you're doing!
   "customFont": false, // Whether to use experimental Arcade Font
-  "textColor": "00f0f0", // Color when using Arcade Text
+  "textColor": "f0f0f0", // Color when using Arcade Text
   "obj_startPos": 0, // When the object spawns relative to the prefab. Not very useful to mess with.
   "obj_bin": 1, // Starting bin for each letter
-  "obj_interval": 0.05, // How much to increment parent offset per letter. Not yet supported in Legacy.
+  "obj_interval": 0.00, // How much to increment parent offset per letter. Not yet supported in Legacy.
 }
-
-function generatePrefab(settings) {
-
-
 
 let customFontDict = {
   "letter_space": 48,
@@ -100,7 +96,6 @@ let customFontDict = {
   "y":`<line-height=14.5><cspace=-0.65><#00000000>████████████████<br>████████████████<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████<#00000000>████<#${settings.textColor}ff>████<#00000000>██<br>██<#${settings.textColor}ff>████████████<#00000000>██<br>████<#${settings.textColor}ff>████████<#00000000>████<br>████<#${settings.textColor}ff>████████<#00000000>████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>██████<#${settings.textColor}ff>████<#00000000>██████<br>`, 
   "z":`<line-height=14.5><cspace=-0.65><#00000000>████████████████<br>████████████████<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█████████<#${settings.textColor}ff>██████<#00000000>█<br>█████████<#${settings.textColor}ff>██████<#00000000>█<br>███████<#${settings.textColor}ff>██████<#00000000>███<br>███████<#${settings.textColor}ff>██████<#00000000>███<br>█████<#${settings.textColor}ff>██████<#00000000>█████<br>█████<#${settings.textColor}ff>██████<#00000000>█████<br>███<#${settings.textColor}ff>██████<#00000000>███████<br>███<#${settings.textColor}ff>██████<#00000000>███████<br>█<#${settings.textColor}ff>██████<#00000000>█████████<br>█<#${settings.textColor}ff>██████<#00000000>█████████<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>█<#${settings.textColor}ff>██████████████<#00000000>█<br>`
 }
-
 
 if (settings.customFont) {
   settings.letter_space = customFontDict.letter_space
@@ -203,11 +198,9 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
       // Please only use this if you know what you're doing
 
       // Example ease type
-      startKeyframes["rotation"].push(makeSingleStartKeyframe(180,"Linear")) // Make the letter start 180 degrees rotated
-      startKeyframes["scale"].push(makeDoubleStartKeyframe(0,2.0,"Linear")) // Make it also start squished flat
-      keyframes["rotation"].push(makeSingleKeyframe(`${settings.easeTime}`,-180,"OutSine")) // Then rotate -180 when it appears
-      keyframes["scale"].push(makeDoubleKeyframe(`${settings.easeTime}`,2.0,2.0,"OutCirc")) // And make it "inflate" back to normal size
-
+      startKeyframes["color"].push(makeSingleStartKeyframe(settings.colorEase,"Linear"))
+      startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,2.0,"Linear"))
+      keyframes["color"].push(makeSingleKeyframe(`${settings.easeTime}`,color,"InElastic"))
     }
 
   // Fill missing keyframes with defaults, to prevent invalid objects
@@ -226,7 +219,7 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
   } else if (settings.customFont) {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${settings.lifetime},"ot":2,"n":"Text ${char}","text":"${customFontDict[char]}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${settings.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   } else {
-    return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${settings.lifetime},"ot":2,"n":"Text ${char}","text":"<font=${letterfont}>${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${settings.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
+    return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${settings.lifetime},"ot":2,"n":"Text ${char}","text":"${settings.extraTags}<font=${letterfont}>${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${settings.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   }
 } // Object templates
 
@@ -357,10 +350,6 @@ if (settings.legacy) {
 if (settings.cursor != ""){
   objects.push(makeCursor(parent_id,0,settings.obj_color,settings.obj_depth,0,settings.cursor))
 }
-
-
-
-console.log(`Paste to "TypeText_${rand}.vgp" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
+console.log(prefab_padding_start + objects.join() + "]}")
+console.log(`Paste to "TypeText_${rand}.${settings.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
-return (prefab_padding_start + objects.join() + "]}")
-}
