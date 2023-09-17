@@ -11,7 +11,7 @@
 let settings = {
   "legacy": false, // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
   "prefabName": "Typetext Showcase", // The name of the prefab
-  "text": "Typetext Version 1.31!", // Text to "type" out
+  "text": "Typetext<p0.5>Version<br>1.31!", // Text to "type" out
   "letter_space": 1.75, // Spacing between letters, 1.75 is best for default font.
   "line_space": 3, // Spacing between lines when <br> is used
   "letter_delay": 0.5, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
@@ -276,7 +276,7 @@ function makeCursor(pid,pos,color,depth,startPos,cursorChar) { // Define functio
 } // Known bug, does not work well when the text is actively moving
 
 
-
+function generatePrefab() {
 let obj_pos = 0 // Start text 0 units away from parent
 let spawnPos = 0 // Start 0 seconds away from prefab spawn
 
@@ -353,3 +353,4 @@ if (settings.cursor != ""){
 console.log(prefab_padding_start + objects.join() + "]}")
 console.log(`Paste to "TypeText_${rand}.${settings.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
+}
