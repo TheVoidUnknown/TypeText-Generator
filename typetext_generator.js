@@ -24,7 +24,7 @@ let settings = {
   "extraTags": "<b>",// Extra HTML tags to use on the text, such as <b> or <i>
   "cursor": "", //"█" // Optional, is placed in front of each letter to sell the illusion of typing in a terminal
   "easeTime": 0.75, // The time it takes each letter to ease
-  "easeType": "custom", // The "fashion" in which letters appear
+  "easeType": "smooth", // The "fashion" in which letters appear
   /*
         "flutter" - Letters will scale from left to right with outelastic
         "flutter-stack" - Letters will scale from left to right with outcirc, as well as spawn stacked on the last letter then move to its position
