@@ -7,14 +7,14 @@
 
 function parseAndRun() {
 if (document.getElementsByName("format")[0].checked == true) {
-  settings.legacy = false
+  params.legacy = false
 } else {settings.legacy = true}
-settings.prefabName = document.getElementById('prefab-name').value
-settings.text = document.getElementById('prefab-text').value
-settings.letter_delay = document.getElementById('time').value
-settings.easeTime = document.getElementById('ease-delay').value
-settings.extraTags = document.getElementById('extra-tags').value
-let result = generatePrefab()
+params.prefabName = document.getElementById('prefab-name').value
+params.text = document.getElementById('prefab-text').value
+params.letter_delay = document.getElementById('time').value
+params.easeTime = document.getElementById('ease-delay').value
+params.extraTags = document.getElementById('extra-tags').value
+let result = generatePrefab(params)
 document.getElementById("output").value = result
 }
 
