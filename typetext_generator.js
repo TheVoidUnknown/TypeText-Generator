@@ -38,7 +38,7 @@ let params = {
     
   
   
-    // Here be dragons! Dont use these settings unless you know what you're doing!
+    // Here be dragons! Dont use these params unless you know what you're doing!
     "customFont": false, // Whether to use experimental Arcade Font
     "textColor": "f0f0f0", // Color when using Arcade Text
     "obj_startPos": 0, // When the object spawns relative to the prefab. Not very useful to mess with.
@@ -276,26 +276,20 @@ let params = {
   } // Known bug, does not work well when the text is actively moving
   
   
-  function generatePrefab(settings) {
+  function generatePrefab() {
   let obj_pos = 0 // Start text 0 units away from parent
   let spawnPos = 0 // Start 0 seconds away from prefab spawn
   parentOffset = 0
   objects = []
   obj_line = 0
   letters = params.text.split("")
-  // TODO: migrate to regex
-  prefab_padding_start
   ii = 0
   skipObjectPush = false
-  parsedTimerTag
-  console.log(settings.text)
-  settings.text = settings.text
-  console.log(settings.text)
   
-  for (i=0; i<settings.text.length; i++) { // For 0 to n letters
+  for (i=0; i<params.text.length; i++) { // For 0 to n letters
   
     let letter = letters[i]
-    console.info(`Letter ${i+1} of ${settings.text.length} parsing. Current Char: ${letters[i]}`)
+    console.info(`Letter ${i+1} of ${params.text.length} parsing. Current Char: ${letters[i]}`)
     ii = ii + 1
   
   
@@ -333,14 +327,14 @@ let params = {
   
     } else {
   
-      if (settings.customFont) {
-        objects.push(makeObject(parent_id,letter,obj_pos,settings.obj_color,settings.obj_depth,spawnPos,parentOffset,customFontDict,obj_line)) // Fill out a new template and push it to the array
+      if (params.customFont) {
+        objects.push(makeObject(parent_id,letter,obj_pos,params.obj_color,params.obj_depth,spawnPos,parentOffset,customFontDict,obj_line)) // Fill out a new template and push it to the array
       } else {
-        objects.push(makeObject(parent_id,letter,obj_pos,settings.obj_color,settings.obj_depth,spawnPos,parentOffset,settings.font,obj_line))
+        objects.push(makeObject(parent_id,letter,obj_pos,params.obj_color,params.obj_depth,spawnPos,parentOffset,params.font,obj_line))
       }
-      obj_pos += settings.letter_space
-      spawnPos += (settings.letter_delay/settings.text.length)
-      parentOffset += settings.obj_interval
+      obj_pos += params.letter_space
+      spawnPos += (params.letter_delay/params.text.length)
+      parentOffset += params.obj_interval
   
     }
   
@@ -352,18 +346,18 @@ let params = {
   let preview = "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"
   
   // Define prefab padding
-  if (settings.legacy) {
-    prefab_padding_start = `{"name":"${settings.prefabName}","type":"9","offset":"0","objects":[{"id":"${parent_id}","p":"","d":"20","ot":3,"st":"0","name":"Text Parent","akt":2,"ako":5,"o":{"x":"0","y":"0"},"ed":{"bin":"0","layer":"0"},"events":{"pos":[{"t":"0","x":"0","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"0"}]}},`
+  if (params.legacy) {
+    prefab_padding_start = `{"name":"${params.prefabName}","type":"9","offset":"0","objects":[{"id":"${parent_id}","p":"","d":"20","ot":3,"st":"0","name":"Text Parent","akt":2,"ako":5,"o":{"x":"0","y":"0"},"ed":{"bin":"0","layer":"0"},"events":{"pos":[{"t":"0","x":"0","y":"0"}],"sca":[{"t":"0","x":"2","y":"2"}],"rot":[{"t":"0","x":"0"}],"col":[{"t":"0","x":"0"}]}},`
   } else {
-    prefab_padding_start = `{"n":"${settings.prefabName}","type":11,"preview":"${preview}","o":0.0,"objs":[{"id":"${parent_id}","ak_t":2,"ak_o":1.0,"ot":3,"n":"Text Parent","ed":{"l":5},"e":[{"k":[{"ct":"Linear","ev":[0.0,0.0]}]},{"k":[{"ct":"Linear","ev":[1.0,1.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]}],"p_t":"101","d":20},`
+    prefab_padding_start = `{"n":"${params.prefabName}","type":11,"preview":"${preview}","o":0.0,"objs":[{"id":"${parent_id}","ak_t":2,"ak_o":1.0,"ot":3,"n":"Text Parent","ed":{"l":5},"e":[{"k":[{"ct":"Linear","ev":[0.0,0.0]}]},{"k":[{"ct":"Linear","ev":[1.0,1.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]}],"p_t":"101","d":20},`
   }
   
   // Spit out the prefab in plaintext
-  if (settings.cursor != ""){
-    objects.push(makeCursor(parent_id,0,settings.obj_color,settings.obj_depth,0,settings.cursor))
+  if (params.cursor != ""){
+    objects.push(makeCursor(parent_id,0,params.obj_color,params.obj_depth,0,params.cursor))
   }
   return prefab_padding_start + objects.join() + "]}"
-  //console.log(`Paste to "TypeText_${rand}.${settings.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
+  //console.log(`Paste to "TypeText_${rand}.${params.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
   //console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
   }
   
