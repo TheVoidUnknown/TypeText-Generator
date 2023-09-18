@@ -193,6 +193,18 @@ let params = {
         keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutCirc"))
         keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
       }
+
+      if (settings.easeType == "conductor") {
+        startKeyframes["color"].push(makeSingleStartKeyframe(settings.colorEase,"Linear"))
+        startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,0,"Linear"))
+        startKeyframes["move"].push(makeDoubleStartKeyframe(pos,pos_y-(settings.line_space/2),"Linear"))
+        startKeyframes["rotation"].push(makeSingleStartKeyframe(0,"Linear"))
+        keyframes["color"].push(makeSingleKeyframe(`${settings.easeTime/2}`,color,"OutSine"))
+        keyframes["rotation"].push(makeSingleKeyframe(`${settings.easeTime/20}`,-30,"OutSine"))
+        keyframes["rotation"].push(makeSingleKeyframe(`${settings.easeTime}`,30,"OutElastic"))
+        keyframes["scale"].push(makeDoubleKeyframe(`${settings.easeTime}`,2.0,2.0,"OutElastic"))
+        keyframes["move"].push(makeDoubleKeyframe(`${settings.easeTime}`,pos,pos_y,"OutElastic"))
+      }
   
       if (params.easeType == "custom") {
         // Please only use this if you know what you're doing
