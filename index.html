@@ -4,6 +4,22 @@
     <meta charset="UTF-8"><title>TypeText 1.3</title>
 
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
+<script>
+
+function parseAndRun() {
+if (document.getElementsByName("format")[0].value == "on") {
+  settings.legacy = false
+} else {settings.legacy = true}
+settings.prefabName = document.getElementById('prefab-name').value
+settings.text = document.getElementById('prefab-text').value
+settings.letter_delay = document.getElementById('time').value
+settings.easeTime = document.getElementById('ease-delay').value
+settings.extraTags = document.getElementById('extra-tags').value
+let result = generatePrefab()
+document.getElementById("output").value = result
+}
+
+</script>
 <style id="TypeText_CSS">
     body {
     background: #252525;
