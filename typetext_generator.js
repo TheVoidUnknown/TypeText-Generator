@@ -279,6 +279,15 @@ let params = {
   function generatePrefab(settings) {
   let obj_pos = 0 // Start text 0 units away from parent
   let spawnPos = 0 // Start 0 seconds away from prefab spawn
+  parentOffset = 0
+  objects = []
+  obj_line = 0
+  letters = params.text.split("")
+  // TODO: migrate to regex
+  prefab_padding_start
+  ii = 0
+  skipObjectPush = false
+  parsedTimerTag
   console.log(settings.text)
   settings.text = settings.text
   console.log(settings.text)
