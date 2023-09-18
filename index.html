@@ -6,7 +6,7 @@
 <script>
 
 function parseAndRun() {
-if (document.getElementsByName("format")[0].value == "on") {
+if (document.getElementsByName("format")[0].checked == true) {
   settings.legacy = false
 } else {settings.legacy = true}
 settings.prefabName = document.getElementById('prefab-name').value
