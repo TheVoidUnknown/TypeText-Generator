@@ -1,16 +1,221 @@
 <html lang="en"><head>
-    <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8"><title>TypeText 1.3</title>
 
-<style>
-    document: {
-        background: #606060;
+<style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
+<style id="TypeText_CSS">
+    body {
+    background: #252525;
     }
-</style>
+
+    * {
+    font-family: inconsolata;
+    }
+
+    .topbar {
+    background-color: #202020;
+    }
+
+    #topbar-wrapper {
+    
+    }
+
+    .header-text {
+    font-size: 4vw;
+    color: #f0f0f0;
+    text-align: left;
+    }
+
+    .menu-wrapper {
+    padding: 1%;
+    background: #333;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-color: #d0d0d0;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    flex-direction: column;
+    }
+
+    .menu-text {
+    font-size: 2vw;
+    color: #f0f0f0;
+    text-align: left;
+    }
+
+    .inputs-wrapper {
+    
+    }
+    
+    #main-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    }
+
+    .text {
+    color: #f0f0f0;
+    }
+
+    .break {
+    color: #333;
+    width: 0px;
+    height: 0px;
+    }</style><style id="input-style">input[type=radio] {
+  display: none;
+}
+
+label[class="radio"] {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+label[class="radio"] span[class="radio"] {
+  position: relative;
+  line-height: 22px;
+}
+
+label[class="radio"] span:before,
+label[class="radio"] span:after {
+  content: '';
+}
+
+label[class="radio"] span:before {
+  border: 2px solid #d0d0d0;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+label[class="radio"] span:after {
+  background: #d0d0d0;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 2px;
+  left: 4.6px;
+  transition: 300ms;
+  opacity: 0;
+}
+
+label input[type=radio]:checked+span:after {
+  opacity: 1;
+}
+
+input[type=text] {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  min-height: 10%;
+  min-width: 25%;
+  border: 0px;
+  font-family: inconsolata;
+  font-size: 1.25rem;
+  padding: 3px;
+}
+
+input[type=text]:focus {
+  border: 0px;
+}
+
+button {
+background: #202020;
+color: #f0f0f0;
+border: 0px solid #f0f0f0;
+border-radius: 4px;
+transition-duration: 0.01s;
+padding: 1.2%
+}
+
+button:hover {
+background: #2a2a2a;
+}
+
+button:focus {
+border: 2px solid #f0f0f0;
+}</style>
 <script type="text/javascript" src="https://thevoidunknown.github.io/TypeText-Generator/typetext_generator.js"></script>
 </head>
-<body style="background: #151515;">
-    <h1>Test page</h1>
+<body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;">
+    
+<div id="topbar-wrapper" style="flex-direction: row;" class="menu-wrapper"><div class="header-text"><b>TypeText Generator v1.3</b></div><div class="menu-text" style="font-size: 70%;">Script &amp; Webpage by TheVoidUnknown.
+Please note the CSS is a work in progress.</div></div>
+<div id="main-wrapper" style="min-height: 50%;height: 88%;overflow: hidden;">
+<div id="options-wrapper" style="margin-top: 2%;width: 40%;min-height: 50%;overflow-y: scroll;max-height: 86%;overflow-x: hidden;flex-direction: column;" class="menu-wrapper menu-item"><div id="menu-top-wrapper" style="display: flex;justify-content: space-between;flex-basis: max-content;flex-direction: row;"><div class="menu-text"><b>Parameters</b></div>
+<div class="custom-select" style="align-self: flex-end;margin-left: 5%;">
+  <select id="options-mode" style="display: none;">
+    <option value="0">Basic</option>
+    <option value="1">Advanced</option>
+<option value="2">Debug</option>
+  </select>
+</div></div><hr style="width: 100%;">
+<div id="inputs-wrapper" class="inputs-wrapper text">
+<label class="radio" id="alphalabel">
+  <input id="alpha
+           " type="radio" name="format">
+  <span class="radio">Alpha</span>
+</label>
 
-</body></html>
+<label class="radio">
+  <input type="radio" id="legacy
+                        " name="format">
+  <span class="radio">Legacy</span>
+</label>
+</div>
+<hr class="break">
+<div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;">
+
+  Prefab Name<br>
+  
+
+
+<label for="prefab-name"><input type="text" name="prefab-name" size="15" placeholder="Epic Monologue" style="" id="prefab-name" oninput="if (this.value.length < 15) {this.size = 15} else {this.size = this.value.length}">
+</label></div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;">
+
+  Prefab Text<br>
+  <label for="prefab-text"><input type="text" name="prefab-name" size="27" style="" id="prefab-text" placeholder="I've come to kill you nano!" oninput="if (this.value.length < 27) {this.size = 27} else {this.size = this.value.length}">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Time<br>
+  <label for="time"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="time" name="time" placeholder="1">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Lifetime<br>
+  <label for="lifetime"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="lifetime" name="lifetime" placeholder="10">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Ease Delay<br>
+  <label for="ease-delay"><input size="5" style="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="ease-delay" placeholder="0.25" name="ease-delay">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Extra Tags<br>
+  <label for="extra-tags"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Letter Spacing<br>
+  <label for="letter-spacing"><input name="prefab-name" size="4" style="" id="prefab-text" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}">
+</label>
+
+
+</div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Line Spacing<br><label for="line-spacing"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="line-spacing" name="line-spacing" placeholder="3">
+</label></div></div><div style="margin-top: 2%;width: 55%;position: relative;flex-direction: column;height: 86%;justify-content: stretch;" class="menu-wrapper menu-item" id="result-wrapper"><div id="menu-top-wrapper" style="display: flex;flex-basis: max-content;flex-direction: row;align-items: center;justify-content: space-between;width: 100%;"><div class="menu-text" style=""><b>Output</b></div>
+<button type="button" onclick="packParams()" style=""><b>Generate!</b></button></div><hr style="width: 100%;"><div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;height: 100%;width: 98%;">
+  
+
+
+<label for="output"><textarea type="text" size="15" style="height: 100%;width: 100%;background: #2d2d2d;border: 2px solid #d0d0d0;color: #b0b0b0;resize: none;border-radius: 4px;" id="output" name="output" placeholder="It seems there's nothing here yet.. 
+Get started on the left to make something cool!"></textarea>
+</label></div></div>
+</div></body></html>
