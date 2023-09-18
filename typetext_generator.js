@@ -281,6 +281,7 @@ let obj_pos = 0 // Start text 0 units away from parent
 let spawnPos = 0 // Start 0 seconds away from prefab spawn
 
 for (i=0; i<settings.text.length; i++) { // For 0 to n letters
+console.log(settings.text)
 
   let letter = letters[i]
   console.info(`Letter ${i+1} of ${settings.text.length} parsing. Current Char: ${letters[i]}`)
