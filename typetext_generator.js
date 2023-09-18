@@ -10,11 +10,11 @@
 
 let settings = {
   "legacy": false, // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
-  "prefabName": "Typetext Showcase", // The name of the prefab
-  "text": "Typetext<p0.5>Version<br>1.31!", // Text to "type" out
+  "prefabName": "Epic Monologue", // The name of the prefab
+  "text": "I've come to kill you nano!", // Text to "type" out
   "letter_space": 1.75, // Spacing between letters, 1.75 is best for default font.
   "line_space": 3, // Spacing between lines when <br> is used
-  "letter_delay": 0.5, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
+  "letter_delay": 1, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
   "obj_depth": 20, // Render depth of all the objects
   "obj_color": 0, // Color of the objects, 0 is the leftmost color of the theme
   "colorEase": 3, // The color to ease from when the letter spawns
@@ -350,7 +350,7 @@ if (settings.legacy) {
 if (settings.cursor != ""){
   objects.push(makeCursor(parent_id,0,settings.obj_color,settings.obj_depth,0,settings.cursor))
 }
-console.log(prefab_padding_start + objects.join() + "]}")
+return prefab_padding_start + objects.join() + "]}"
 console.log(`Paste to "TypeText_${rand}.${settings.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
 }
