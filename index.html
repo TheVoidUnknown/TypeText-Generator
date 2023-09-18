@@ -5,7 +5,7 @@
 
 <script>
 
-function parseParams() {
+function parseAndRun() {
 if (document.getElementsByName("format")[0].value == "on") {
   settings.legacy = false
 } else {settings.legacy = true}
@@ -14,6 +14,8 @@ settings.text = document.getElementById('prefab-text').value
 settings.letter_delay = document.getElementById('time').value
 settings.easeTime = document.getElementById('ease-delay').value
 settings.extraTags = document.getElementById('extra-tags').value
+let result = generatePrefab()
+document.getElementById("output").value = result
 }
 
 </script>
