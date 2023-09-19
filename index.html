@@ -1,7 +1,7 @@
 <html lang="en"><head>
     
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8"><title>TypeText 1.3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><title>TypeText 1.3</title>
 
 <script>
 function parseAndRun() {
@@ -15,130 +15,182 @@ params.easeTime = document.getElementById('ease-delay').value
 params.extraTags = document.getElementById('extra-tags').value
 params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
 params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
+params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
+params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
+
 let result = generatePrefab(params)
 document.getElementById("output").value = result
 }
+
+var theme;
+function init() {
+var theme;
+document.getElementById('file-input').addEventListener('change', function() {
+
+  var fr=new FileReader();
+  fr.onload=function(){
+    theme = JSON.parse(fr.result);
+    document.getElementById("obj-col-1").style.background = "#" + theme.objs[0]
+    document.getElementById("obj-col-2").style.background = "#" + theme.objs[1]
+    document.getElementById("obj-col-3").style.background = "#" + theme.objs[2]
+    document.getElementById("obj-col-4").style.background = "#" + theme.objs[3]
+    document.getElementById("obj-col-5").style.background = "#" + theme.objs[4]
+    document.getElementById("obj-col-6").style.background = "#" + theme.objs[5]
+    document.getElementById("obj-col-7").style.background = "#" + theme.objs[6]
+    document.getElementById("obj-col-8").style.background = "#" + theme.objs[7]
+    document.getElementById("obj-col-9").style.background = "#" + theme.objs[8]
+    document.getElementById("obj-col-1-1").style.background = "#" + theme.objs[0]
+    document.getElementById("obj-col-2-1").style.background = "#" + theme.objs[1]
+    document.getElementById("obj-col-3-1").style.background = "#" + theme.objs[2]
+    document.getElementById("obj-col-4-1").style.background = "#" + theme.objs[3]
+    document.getElementById("obj-col-5-1").style.background = "#" + theme.objs[4]
+    document.getElementById("obj-col-6-1").style.background = "#" + theme.objs[5]
+    document.getElementById("obj-col-7-1").style.background = "#" + theme.objs[6]
+    document.getElementById("obj-col-8-1").style.background = "#" + theme.objs[7]
+    document.getElementById("obj-col-9-1").style.background = "#" + theme.objs[8]
+  }
+
+fr.readAsText(this.files[0]);
+})
+}
+
+setTimeout(init,1000)
 </script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
 <style id="TypeText_CSS">
-    body {
-    background: #252525;
-    }
+  body {
+  background: #252525;
+  }
 
-    * {
-    font-family: inconsolata;
-    }
+  * {
+  font-family: inconsolata;
+  }
 
-    .topbar {
-    background-color: #202020;
-    }
+  .topbar {
+  background-color: #202020;
+  }
 
-    #topbar-wrapper {
-    
-    }
+  #topbar-wrapper {
+  
+  }
 
-    .header-text {
-    font-size: 4vw;
-    color: #f0f0f0;
-    text-align: left;
-    }
+  .header-text {
+  font-size: 4vw;
+  color: #f0f0f0;
+  text-align: left;
+  }
 
-    .menu-wrapper {
-    padding: 1%;
-    background: #333;
-    border-bottom-style: solid;
-    border-bottom-width: 4px;
-    border-bottom-color: #d0d0d0;
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    flex-direction: column;
-    }
+  .menu-wrapper {
+  padding: 1%;
+  background: #333;
+  border-bottom-style: solid;
+  border-bottom-width: 4px;
+  border-bottom-color: #d0d0d0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  flex-direction: column;
+  }
 
-    .menu-text {
-    font-size: 2vw;
-    color: #f0f0f0;
-    text-align: left;
-    }
+  .menu-text {
+  font-size: 2vw;
+  color: #f0f0f0;
+  text-align: left;
+  }
+  
+  #main-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  }
 
-    .inputs-wrapper {
-    
-    }
-    
-    #main-wrapper {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    }
+  .text {
+  color: #f0f0f0;
+  }
 
-    .text {
-    color: #f0f0f0;
-    }
+  .break {
+  color: #333;
+  width: 0px;
+  height: 0px;
+  }
 
-    .break {
-    color: #333;
-    width: 0px;
-    height: 0px;
-    }</style><style id="input-style">input[type=radio] {
-  display: none;
+  .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  }
+
+  .inputs-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  }
+
+  .hr-break {
+  width: 100%;
+  padding: 1%;
+  display: flex;
+  justify-content: space-between;
+  }</style><style id="input-style">input[type=radio] {
+display: none;
 }
 
 label[class="radio"] {
-  display: inline-block;
-  padding: 5px 10px;
-  cursor: pointer;
+display: inline-block;
+padding: 5px 10px;
+cursor: pointer;
 }
 
 label[class="radio"] span[class="radio"] {
-  position: relative;
-  line-height: 22px;
+position: relative;
+line-height: 22px;
 }
 
 label[class="radio"] span:before,
 label[class="radio"] span:after {
-  content: '';
+content: '';
 }
 
 label[class="radio"] span:before {
-  border: 2px solid #d0d0d0;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  display: inline-block;
-  vertical-align: top;
+border: 2px solid #d0d0d0;
+width: 20px;
+height: 20px;
+margin-right: 10px;
+display: inline-block;
+vertical-align: top;
 }
 
 label[class="radio"] span:after {
-  background: #d0d0d0;
-  width: 14px;
-  height: 14px;
-  position: absolute;
-  top: 2px;
-  left: 4.6px;
-  transition: 300ms;
-  opacity: 0;
+background: #d0d0d0;
+width: 14px;
+height: 14px;
+position: absolute;
+top: 2px;
+left: 4.6px;
+transition: 300ms;
+opacity: 0;
 }
 
 label input[type=radio]:checked+span:after {
-  opacity: 1;
+opacity: 1;
 }
 
 input[type=text] {
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  min-height: 10%;
-  min-width: 25%;
-  border: 0px;
-  font-family: inconsolata;
-  font-size: 1.25rem;
-  padding: 3px;
+background-color: #f0f0f0;
+border-radius: 4px;
+min-height: 10%;
+min-width: 25%;
+border: 0px;
+font-family: inconsolata;
+font-size: 1.25rem;
+padding: 3px;
 }
 
 input[type=text]:focus {
-  border: 0px;
+border: 0px;
 }
 
 button {
@@ -159,100 +211,132 @@ border: 2px solid #f0f0f0;
 }
 
 ::placeholder {
-  color: #d0d0d0;
-  opacity: 1; 
+color: #d0d0d0;
+opacity: 1; 
 }
 
 textarea::placeholder {
-  color: #404040;
-  opacity: 1; 
+color: #404040;
+opacity: 1; 
 }
-    
-</style>
+
+label.color {
+width: 25px;
+height: 25px;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.focused {
+box-shadow: 0px 0px 4px white;
+}</style>
 <script type="text/javascript" src="https://thevoidunknown.github.io/TypeText-Generator/typetext_generator.js"></script>
 </head>
 <body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;">
-    
+  
 <div id="topbar-wrapper" style="flex-direction: row;" class="menu-wrapper"><div class="header-text"><b>TypeText Generator v1.3</b></div><div class="menu-text" style="font-size: 70%;">Script &amp; Webpage by TheVoidUnknown.
 Please note the CSS is a work in progress.</div></div>
 <div id="main-wrapper" style="min-height: 50%;height: 88%;overflow: hidden;">
 <div id="options-wrapper" style="margin-top: 2%;width: 40%;min-height: 50%;overflow-y: scroll;max-height: 86%;overflow-x: hidden;flex-direction: column;" class="menu-wrapper menu-item"><div id="menu-top-wrapper" style="display: flex;justify-content: space-between;flex-basis: max-content;flex-direction: row;"><div class="menu-text"><b>Parameters</b></div>
 <div class="custom-select" style="align-self: flex-end;margin-left: 5%;">
-  <select id="options-mode" style="display: none;">
-    <option value="0">Basic</option>
-    <option value="1">Advanced</option>
+<select id="options-mode" style="display: none;">
+  <option value="0">Basic</option>
+  <option value="1">Advanced</option>
 <option value="2">Debug</option>
-  </select>
+</select>
 </div></div><hr style="width: 100%;">
 <div id="inputs-wrapper" class="inputs-wrapper text">
 <label class="radio" id="alphalabel">
-  <input id="alpha
-           " type="radio" name="format">
-  <span class="radio">Alpha</span>
+<input id="alpha
+         " type="radio" name="format">
+<span class="radio">Alpha</span>
 </label>
 
 <label class="radio">
-  <input type="radio" id="legacy
-                        " name="format">
-  <span class="radio">Legacy</span>
+<input type="radio" id="legacy
+                      " name="format">
+<span class="radio">Legacy</span>
 </label>
 </div>
-<hr class="break">
-<div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;">
 
-  Prefab Name<br>
-  
+<hr style="width: 100%;"><div style="margin-left: 1%;" id="input-wrapper" class="input-wrapper text">
+
+Prefab Name<br>
+
 
 
 <label for="prefab-name"><input value="Epic Monologue" type="text" name="prefab-name" size="15" placeholder="Epic Monologue" style="" id="prefab-name" oninput="if (this.value.length < 15) {this.size = 15} else {this.size = this.value.length}">
-</label></div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;">
+</label></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text">
 
-  Prefab Text<br>
-  <label for="prefab-text"><input value="I've come to kill you nano!" type="text" name="prefab-name" size="27" style="" id="prefab-text" placeholder="I've come to kill you nano!" oninput="if (this.value.length < 27) {this.size = 27} else {this.size = this.value.length}">
+Prefab Text<br>
+<label for="prefab-text"><input value="I've come to kill you nano!" type="text" name="prefab-name" size="27" style="" id="prefab-text" placeholder="I've come to kill you nano!" oninput="if (this.value.length < 27) {this.size = 27} else {this.size = this.value.length}">
 </label>
 
 
-</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Time<br>
-  <label for="time"><input size="4" value="1" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="time" name="time" placeholder="1">
+</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text">Extra Tags<br>
+<label for="extra-tags"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>">
 </label>
 
 
-</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Lifetime<br>
-  <label for="lifetime"><input value="10" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="lifetime" name="lifetime" placeholder="10">
+</div>
+<div style="display: none;" class="hr-break text">
+<b>Timing</b><hr style="width: 100%;margin-left: 1%;"></div><hr style="width: 100%;"><div style="margin-left: 1%;" class="inputs-wrapper text" id="inputs-wrapper">
+<label for="time" style="align-self: ;">Time<br><input size="4" value="1" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="time" name="time" placeholder="1">
 </label>
 
 
-</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Ease Delay<br>
-  <label for="ease-delay"><input value="0.25" size="5" style="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="ease-delay" placeholder="0.25" name="ease-delay">
-</label>
-
-
-</div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Ease Type<br><div class="custom-select" style="">
-  <select style="" id="ease-type">
-    <option value="0">Flutter</option>
-    <option value="1">Popup</option>
+<label for="lifetime">Lifetime<br><input value="10" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="lifetime" name="lifetime" placeholder="10">
+</label><label for="ease-delay">Ease Delay<br><input value="0.25" size="5" style="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="ease-delay" placeholder="0.25" name="ease-delay">
+</label></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced">Ease Type<br><div class="custom-select" style="">
+<select style="" id="ease-type">
+  <option value="0">Flutter</option>
+  <option value="1">Popup</option>
 <option value="2">Zipper</option><option value="3">Smooth</option><option value="4">Bounce</option><option value="5">Stretch</option><option value="6">Elastic</option>
-  </select>
-</div></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text">Extra Tags<br>
-  <label for="extra-tags"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>">
+</select>
+</div></div><hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text advanced">
+<label for="letter-spacing">Letter Spacing<br><input value="1.75" name="prefab-name" size="4" style="" id="prefab-text" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}">
 </label>
 
 
-</div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Letter Spacing<br>
-  <label for="letter-spacing"><input value="1.75" name="prefab-name" size="4" style="" id="prefab-text" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}">
-</label>
-
-
-</div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Line Spacing<br><label for="line-spacing"><input value="3" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="line-spacing" name="line-spacing" placeholder="3">
-</label></div><hr class="break"><div id="inputs-wrapper" class="inputs-wrapper text advanced" style="margin-left: 1%;">Font<br><div class="custom-select" style="">
-  <select style="" id="font">
-    <option value="0">Inconsolata</option>
-    <option value="1">Major Mono Display</option>
+<label for="line-spacing">Line Spacing<br><input value="3" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="line-spacing" name="line-spacing" placeholder="3">
+</label></div><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced"></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced">Font<br><div class="custom-select" style="">
+<select style="" id="font">
+  <option value="0">Inconsolata</option>
+  <option value="1">Major Mono Display</option>
 <option value="2">Hellovetica</option><option value="3">PoorStory</option>
-  </select>
-</div></div></div><div style="margin-top: 2%;width: 55%;position: relative;flex-direction: column;height: 86%;justify-content: stretch;" class="menu-wrapper menu-item" id="result-wrapper"><div id="menu-top-wrapper" style="display: flex;flex-basis: max-content;flex-direction: row;align-items: center;justify-content: space-between;width: 100%;"><div class="menu-text" style=""><b>Output</b></div>
-<button type="button" style="" onclick="parseAndRun()"><b>Generate!</b></button></div><hr style="width: 100%;"><div id="inputs-wrapper" class="inputs-wrapper text" style="margin-left: 1%;height: 100%;width: 98%;">
-  
+</select>
+</div></div><hr style="width: 100%;"><div style="margin-left: 1%;" id="file-upload-wrapper" class="input-wrapper text file-upload">Upload your theme to select colors!<br><hr class="break"><input type="file" id="file-input">
+<hr class="break">
+<div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 1: <br><label id="obj-col-1" style="background: rgb(0, 0, 0);" class="color focused"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 2: <label style="background: rgb(0, 0, 0);" id="obj-col-1-1" class="color focused"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div><div style="margin-top: 2%;width: 55%;position: relative;flex-direction: column;height: 86%;justify-content: stretch;" class="menu-wrapper menu-item" id="result-wrapper"><div id="menu-top-wrapper" style="display: flex;flex-basis: max-content;flex-direction: row;align-items: center;justify-content: space-between;width: 100%;"><div class="menu-text" style=""><b>Output</b></div>
+<button type="button" style="" onclick="parseAndRun()"><b>Generate!</b></button></div><hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;height: 100%;width: 98%;" class="text">
+
 
 
 <label for="output"><textarea type="text" size="15" style="height: 100%;width: 100%;background: #2d2d2d;border: 2px solid #d0d0d0;color: #b0b0b0;resize: none;border-radius: 4px;" id="output" name="output" placeholder="It seems there's nothing here yet.. 
@@ -261,4 +345,6 @@ Get started on the left to make something cool!"></textarea>
 </div>
 
 
-</body></html>
+
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+  </body></html>
