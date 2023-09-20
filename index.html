@@ -3,7 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8"><title>TypeText 1.3</title>
 
-<script>
+<script>var activeTheme;
+
 function parseAndRun() {
 if (document.getElementsByName("format")[0].checked == true) {
   params.legacy = false
@@ -15,18 +16,20 @@ params.easeTime = document.getElementById('ease-delay').value
 params.extraTags = document.getElementById('extra-tags').value
 params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
 params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
+if (params.legacy) {
 params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
 params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
-
+} else {
+params.colorEase = document.getElementsByClassName("focused")[1].firstChild.value
+params.obj_color = document.getElementsByClassName("focused")[2].firstChild.value
+}
 let result = generatePrefab(params)
 document.getElementById("output").value = result
 }
 
 var theme;
 function init() {
-var theme;
 document.getElementById('file-input').addEventListener('change', function() {
-
   var fr=new FileReader();
   fr.onload=function(){
     theme = JSON.parse(fr.result);
@@ -55,7 +58,56 @@ fr.readAsText(this.files[0]);
 }
 
 setTimeout(init,1000)
-</script>
+
+function loadThemes() {
+try {let divs = document.querySelectorAll('.theme-selector-div')
+for (i=0;i<divs.length;i++) {divs[i].remove()} } catch(error) {}
+
+for (i=0;i<theme.themes.length;i++) {
+  let html = `<label style="background: #${theme.themes[i].base_bg};flex-grow: 100;display: block;text-align: left;padding-left: 2%;overflow: hidden;" id="theme-select-${i}" class="color"><b style="color: #${theme.themes[i].base_gui};position: relative;top: 15%;">${theme.themes[i].name}</b><input class="color" type="radio" style="" value="${i}" name="theme" onclick="for (i=0;i<document.getElementsByName('theme').length;i++) {document.getElementsByName('theme')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused');activeTheme=this.value;loadColors();"><span class="red color" style=""></span></label>`
+  dummy = document.createElement('div')
+  dummy.innerHTML = html
+  dummy.style = "display:flex;flex-grow:100;"
+  dummy.classList.add("theme-selector-div")
+  document.getElementById('theme-select').appendChild(dummy)
+}}
+
+function init2() {
+document.getElementById('file-input-alpha').addEventListener('change', function() {
+
+  var fr=new FileReader();
+  fr.onload=function(){
+    theme = JSON.parse(fr.result);
+    loadThemes();
+  }
+
+fr.readAsText(this.files[0]);
+})
+}
+
+setTimeout(init2,1000) 
+
+function loadColors() {
+document.getElementById("obj-col-1-a").style.background = "#" + theme.themes[activeTheme].obj[0]
+document.getElementById("obj-col-2-a").style.background = "#" + theme.themes[activeTheme].obj[1]
+document.getElementById("obj-col-3-a").style.background = "#" + theme.themes[activeTheme].obj[2]
+document.getElementById("obj-col-4-a").style.background = "#" + theme.themes[activeTheme].obj[3]
+document.getElementById("obj-col-5-a").style.background = "#" + theme.themes[activeTheme].obj[4]
+document.getElementById("obj-col-6-a").style.background = "#" + theme.themes[activeTheme].obj[5]
+document.getElementById("obj-col-7-a").style.background = "#" + theme.themes[activeTheme].obj[6]
+document.getElementById("obj-col-8-a").style.background = "#" + theme.themes[activeTheme].obj[7]
+document.getElementById("obj-col-9-a").style.background = "#" + theme.themes[activeTheme].obj[8]
+
+document.getElementById("obj-col-1-1-a").style.background = "#" + theme.themes[activeTheme].obj[0]
+document.getElementById("obj-col-2-1-a").style.background = "#" + theme.themes[activeTheme].obj[1]
+document.getElementById("obj-col-3-1-a").style.background = "#" + theme.themes[activeTheme].obj[2]
+document.getElementById("obj-col-4-1-a").style.background = "#" + theme.themes[activeTheme].obj[3]
+document.getElementById("obj-col-5-1-a").style.background = "#" + theme.themes[activeTheme].obj[4]
+document.getElementById("obj-col-6-1-a").style.background = "#" + theme.themes[activeTheme].obj[5]
+document.getElementById("obj-col-7-1-a").style.background = "#" + theme.themes[activeTheme].obj[6]
+document.getElementById("obj-col-8-1-a").style.background = "#" + theme.themes[activeTheme].obj[7]
+document.getElementById("obj-col-9-1-a").style.background = "#" + theme.themes[activeTheme].obj[8]
+}</script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
 <style id="TypeText_CSS">
   body {
@@ -134,7 +186,11 @@ setTimeout(init,1000)
   padding: 1%;
   display: flex;
   justify-content: space-between;
-  }</style><style id="input-style">input[type=radio] {
+  }
+
+.hidden {
+display: none;
+}</style><style id="input-style">input[type=radio] {
 display: none;
 }
 
@@ -237,7 +293,7 @@ box-shadow: 0px 0px 4px white;
 }</style>
 <script type="text/javascript" src="https://thevoidunknown.github.io/TypeText-Generator/typetext_generator.js"></script>
 </head>
-<body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;">
+<body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;" data-new-gr-c-s-loaded="8.907.0">
   
 <div id="topbar-wrapper" style="flex-direction: row;" class="menu-wrapper"><div class="header-text"><b>TypeText Generator v1.3</b></div><div class="menu-text" style="font-size: 70%;">Script &amp; Webpage by TheVoidUnknown.
 Please note the CSS is a work in progress.</div></div>
@@ -253,13 +309,13 @@ Please note the CSS is a work in progress.</div></div>
 <div id="inputs-wrapper" class="inputs-wrapper text">
 <label class="radio" id="alphalabel">
 <input id="alpha
-         " type="radio" name="format">
+         " type="radio" name="format" onclick="for(i=0;i<document.getElementsByClassName('legacy-only').length;i++){document.getElementsByClassName('legacy-only')[i].classList.add('hidden');};for(i=0;i<document.getElementsByClassName('alpha-only').length;i++){document.getElementsByClassName('alpha-only')[i].classList.remove('hidden');};">
 <span class="radio">Alpha</span>
 </label>
 
 <label class="radio">
 <input type="radio" id="legacy
-                      " name="format">
+                      " name="format" onclick="for(i=0;i<document.getElementsByClassName('alpha-only').length;i++){document.getElementsByClassName('alpha-only')[i].classList.add('hidden');};for(i=0;i<document.getElementsByClassName('legacy-only').length;i++){document.getElementsByClassName('legacy-only')[i].classList.remove('hidden');};">
 <span class="radio">Legacy</span>
 </label>
 </div>
@@ -302,40 +358,19 @@ Prefab Text<br>
 
 
 <label for="line-spacing">Line Spacing<br><input value="3" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="line-spacing" name="line-spacing" placeholder="3">
-</label></div><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced"></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced">Font<br><div class="custom-select" style="">
+</label></div><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced"></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text alpha-only hidden">Font<br><div class="custom-select" style="">
 <select style="" id="font">
   <option value="0">Inconsolata</option>
   <option value="1">Major Mono Display</option>
 <option value="2">Hellovetica</option><option value="3">PoorStory</option>
 </select>
-</div></div><hr style="width: 100%;"><div style="margin-left: 1%;" id="file-upload-wrapper" class="input-wrapper text file-upload">Upload your theme to select colors!<br><hr class="break"><input type="file" id="file-input" accept=".lst" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\prefabs">
+</div></div><hr style="width: 100%;"><div style="margin-left: 1%;" id="file-upload-wrapper" class="input-wrapper text file-upload legacy-only">Upload your theme to select colors!<br><hr class="break"><input type="file" id="file-input" accept=".lst" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\themes">
 <hr class="break">
-<div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 1: <br><label id="obj-col-1" style="background: rgb(0, 0, 0);" class="color focused"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 2: <label style="background: rgb(0, 0, 0);" id="obj-col-1-1" class="color focused"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
+<div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 1: <br><label id="obj-col-1" style="background: rgb(0, 0, 0);" class="color"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 2: <label style="background: rgb(0, 0, 0);" id="obj-col-1-1" class="color"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div><div style="margin-left: 1%;width: 99%;" id="file-upload-wrapper" class="input-wrapper text file-upload alpha-only hidden">Upload your level to select a theme!<br><hr class="break"><input type="file" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\editor" accept=".vgd" id="file-input-alpha">
+<hr class="break">Select Theme<br><div style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;" id="theme-select"></div><hr class="break">
+<div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;width: fit-content;">Color 1: <br><label style="background: rgb(0, 0, 0);" class="color focused" id="obj-col-1-a"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-a"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-a"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-a"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-a"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-a"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-a"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-a"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-a"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;width: fit-content;">Color 2: <label style="background: rgb(0, 0, 0);" class="color focused" id="obj-col-1-1-a"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1-a"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1-a"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1-a"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1-a"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1-a"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1-a"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1-a"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1-a"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
 
 </div></div><div style="margin-top: 2%;width: 55%;position: relative;flex-direction: column;height: 86%;justify-content: stretch;" class="menu-wrapper menu-item" id="result-wrapper"><div id="menu-top-wrapper" style="display: flex;flex-basis: max-content;flex-direction: row;align-items: center;justify-content: space-between;width: 100%;"><div class="menu-text" style=""><b>Output</b></div>
 <button type="button" style="" onclick="parseAndRun()"><b>Generate!</b></button></div><hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;height: 100%;width: 98%;" class="text">
@@ -347,8 +382,4 @@ Get started on the left to make something cool!"></textarea>
 </label></div></div>
 </div>
 
-
-
-<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
-  
 </body></html>
