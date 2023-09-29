@@ -100,9 +100,18 @@ function keybind(callback) {
         }
     };
 }
-const handler = keybind(() => {});
+const handler = keybind(() => {
+document.getElementById('output').style.backgroundImage = 'url("https://media.tenor.com/xXMKqzQrpJ0AAAAC/skeleton-trumpet.gif")'
+document.getElementById('output').style.backgroundSize = '100%'
+document.getElementById('output').value= = 'You got spooked!!!'
+});
 window.addEventListener('keydown', handler);
 window.addEventListener('keydown', keybind(event => {
+
+document.getElementById('output').style.backgroundImage = 'url("https://media.tenor.com/xXMKqzQrpJ0AAAAC/skeleton-trumpet.gif")'
+document.getElementById('output').style.backgroundSize = '100%'
+document.getElementById('output').value= = 'You got spooked!!!'
+/*
 var h = 0;
 for (i=0;i<document.getElementsByClassName("color").length;i++) {
   document.getElementsByClassName("color")[i].style.background = `#ff0000`
@@ -114,10 +123,8 @@ for (i=0;i<document.getElementsByClassName("color").length;i++) {
   document.getElementsByClassName("color")[i].style.filter = `hue-rotate(${h+i}deg)`
   }
 }
-//setInterval(renbow,1)
-document.getElementById('output').style.backgroundImage = 'url("https://media.tenor.com/xXMKqzQrpJ0AAAAC/skeleton-trumpet.gif")'
-document.getElementById('output').style.backgroundSize = '100%'
-document.getElementById('output').value= = 'You got spooked!!!'
+setInterval(renbow,1)
+*/
 }));
 
 function download_file(name, contents, mime_type) {
