@@ -114,7 +114,10 @@ for (i=0;i<document.getElementsByClassName("color").length;i++) {
   document.getElementsByClassName("color")[i].style.filter = `hue-rotate(${h+i}deg)`
   }
 }
-setInterval(renbow,1)
+//setInterval(renbow,1)
+document.getElementById('output').style.backgroundImage = 'url("https://media.tenor.com/xXMKqzQrpJ0AAAAC/skeleton-trumpet.gif")'
+document.getElementById('output').style.backgroundSize = '100%'
+document.getElementById('output').value= = 'You got spooked!!!'
 }));
 
 function download_file(name, contents, mime_type) {
