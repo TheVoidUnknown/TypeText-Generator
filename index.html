@@ -87,6 +87,37 @@ document.getElementById("obj-col-8-1-a").style.background = "#" + theme.themes[a
 document.getElementById("obj-col-9-1-a").style.background = "#" + theme.themes[activeTheme].obj[8]
 }
 
+
+
+function keybind(callback) {
+    let kkeys = [];
+    // up,up,down,down,left,right,left,right,B,A
+    const keybind = '38,38,40,40,37,39,37,39,66,65';
+    return event => {
+        kkeys.push(event.keyCode);
+        if (kkeys.toString().indexOf(keybind) >= 0) {
+            callback(event);
+            kkeys = [];
+        }
+    };
+}
+const handler = keybind(() => {});
+window.addEventListener('keydown', handler);
+window.addEventListener('keydown', keybind(event => {
+var h = 0;
+for (i=0;i<document.getElementsByClassName("color").length;i++) {
+  document.getElementsByClassName("color")[i].style.background = `#ff0000`
+}
+
+function renbow() {
+h++;
+for (i=0;i<document.getElementsByClassName("color").length;i++) {
+  document.getElementsByClassName("color")[i].style.filter = `hue-rotate(${h+i}deg)`
+  }
+}
+setInterval(renbow,1)
+}));
+
 function download_file(name, contents, mime_type) {
         mime_type = mime_type || "text/plain";
 
