@@ -5,28 +5,6 @@
 
 <script>var activeTheme;
 
-function parseAndRun() {
-if (document.getElementsByName("format")[0].checked == true) {
-  params.legacy = false
-} else {params.legacy = true}
-params.prefabName = document.getElementById('prefab-name').value
-params.text = document.getElementById('prefab-text').value
-params.letter_delay = document.getElementById('time').value
-params.easeTime = document.getElementById('ease-delay').value
-params.extraTags = document.getElementById('extra-tags').value
-params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
-params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
-if (params.legacy) {
-params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
-params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
-} else {
-params.colorEase = document.getElementsByClassName("focused")[1].firstChild.value
-params.obj_color = document.getElementsByClassName("focused")[2].firstChild.value
-}
-let result = generatePrefab(params)
-document.getElementById("output").value = result
-}
-
 var theme;
 function init() {
 document.getElementById('file-input').addEventListener('change', function() {
@@ -107,6 +85,65 @@ document.getElementById("obj-col-6-1-a").style.background = "#" + theme.themes[a
 document.getElementById("obj-col-7-1-a").style.background = "#" + theme.themes[activeTheme].obj[6]
 document.getElementById("obj-col-8-1-a").style.background = "#" + theme.themes[activeTheme].obj[7]
 document.getElementById("obj-col-9-1-a").style.background = "#" + theme.themes[activeTheme].obj[8]
+}</script><script id="parser">function parseAndRun() {
+try {
+
+for (i=0;i<document.getElementsByClassName("error").length;i++) {
+  document.getElementsByClassName("error")[i].classList.remove("error");
+}
+
+if (document.getElementById('prefab-name').value == "Magic 8 Ball") {
+  document.getElementById('prefab-text-div').firstChild.textContent = "Ask a Question"
+  if (document.getElementById('prefab-text').value.includes("?")) {
+    document.getElementById("output").value = ["Yes, definitely", "Yes.", "Maybe.", "Possibly.", "No.", "Definitely not.", "Ask again later.", "Totally! (◠‿◠✿)"][Math.floor(Math.random()*8)]
+    return;
+  } else {
+    document.getElementById("output").value = "Ask a question, and an answer you shall receive."
+    return;
+  }
+}
+
+document.getElementById('prefab-text-div').firstChild.textContent = "Prefab Text"
+
+if (document.getElementsByName("format")[0].checked == true) {
+  params.legacy = false
+} else {params.legacy = true}
+
+if (!document.getElementById('prefab-name').value == "") {params.prefabName = document.getElementById('prefab-name').value}
+else {document.getElementById('prefab-name').classList.add("error");document.getElementById("output").value = "Error: Your prefab needs a name!";return;}
+
+if (!document.getElementById('prefab-text').value == "") {params.prefabName = document.getElementById('prefab-text').value}
+else {document.getElementById('prefab-text').classList.add("error");document.getElementById("output").value = "Error: You need something to say!";return;}
+
+if (!document.getElementById('time').value == "") {params.prefabName = document.getElementById('time').value}
+else {document.getElementById('time').classList.add("error");document.getElementById("output").value = "Error: You need a time delay!";return;}
+
+if (!document.getElementById('ease-delay').value == "") {params.prefabName = document.getElementById('ease-delay').value}
+else {document.getElementById('ease-delay').classList.add("error");document.getElementById("output").value = "Error: You need an ease delay!";return;}
+
+if (!document.getElementById('letter-spacing').value == "") {params.prefabName = document.getElementById('letter-spacing').value}
+else {document.getElementById('letter-spacing').classList.add("error");document.getElementById("output").value = "Error: You need a letter spacing!";return;}
+
+if (!document.getElementById('line-spacing').value == "") {params.prefabName = document.getElementById('line-spacing').value}
+else {document.getElementById('line-spacing').classList.add("error");document.getElementById("output").value = "Error: You need line spacing!";return;}
+
+params.extraTags = document.getElementById('extra-tags').value
+params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
+params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
+
+if (params.legacy) {
+params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
+params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
+} else {
+params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
+params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
+}
+let result = generatePrefab(params)
+document.getElementById("output").value = result
+} catch (whoops) {
+  document.getElementById("output").value = `Oops! There was an error unaccounted for. Please report this! The error details are below:\n\n${whoops}`
+  return;
+}
 }</script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
 <style id="TypeText_CSS">
@@ -190,6 +227,10 @@ document.getElementById("obj-col-9-1-a").style.background = "#" + theme.themes[a
 
 .hidden {
 display: none;
+}
+
+.error {
+border: 3px solid #f00000 !important;
 }</style><style id="input-style">input[type=radio] {
 display: none;
 }
@@ -303,7 +344,7 @@ border: 2px solid #f0f0f0;
 </style>
 <script type="text/javascript" src="https://thevoidunknown.github.io/TypeText-Generator/typetext_generator.js"></script>
 </head>
-<body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;" data-new-gr-c-s-loaded="8.907.0">
+<body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;" data-new-gr-c-s-loaded="8.907.0" data-gr-ext-disabled="forever">
   
 <div id="topbar-wrapper" style="flex-direction: row;" class="menu-wrapper"><div class="header-text"><b>TypeText Generator v1.3</b></div><div class="menu-text" style="font-size: 70%;">Script &amp; Webpage by TheVoidUnknown.
 Please note the CSS is a work in progress.</div></div>
@@ -330,20 +371,16 @@ Please note the CSS is a work in progress.</div></div>
 </label>
 </div>
 
-<hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;width: 100%;" class="input-wrapper text">
+<hr style="width: 100%;"><div style="margin-left: 1%;width: 100%;" class="input-wrapper text" id="prefab-name-div">Prefab Name<br>
 
-Prefab Name<br>
-
-<label for="prefab-name"><input value="Epic Monologue" type="text" name="prefab-name" size="15" placeholder="Epic Monologue" style="" id="prefab-name" oninput="if (this.value.length < 15) {this.size = 15} else {this.size = this.value.length}">
-</label></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;width: 100%;" class="input-wrapper text">
-
-Prefab Text<br>
-<label for="prefab-text"><textarea value="I've come to kill you nano!" type="text" name="prefab-name" size="59" style="resize: none;width: 100%;" id="prefab-text" placeholder="I've come to kill you nano!" oninput="if (this.value.length < 27) {this.size = 27} else {this.size = this.value.length}"></textarea>
+<label for="prefab-name"><input value="Epic Monologue" type="text" name="prefab-name" size="15" placeholder="Epic Monologue" style="" id="prefab-name" oninput="if (this.value.length < 15) {this.size = 15} else {this.size = this.value.length}" class="">
+</label></div><hr class="break"><div style="margin-left: 1%;width: 100%;" class="input-wrapper text" id="prefab-text-div">Prefab Text<br>
+<label for="prefab-text"><textarea value="I've come to kill you nano!" type="text" name="prefab-name" size="59" style="resize: none;width: 100%;" id="prefab-text" placeholder="I've come to kill you nano!" oninput="if (this.value.length < 27) {this.size = 27} else {this.size = this.value.length}" class=""></textarea>
 </label>
 
 
 </div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text">Extra Tags<br>
-<label for="extra-tags"><input size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>">
+<label for="extra-tags"><input size="4" style="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>" class="">
 </label>
 
 
@@ -363,22 +400,22 @@ Prefab Text<br>
 <option value="2">Zipper</option><option value="3">Smooth</option><option value="4">Bounce</option><option value="5">Stretch</option><option value="6">Elastic</option>
 </select>
 </div></div><hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text advanced">
-<label for="letter-spacing">Letter Spacing<br><input value="1.75" name="prefab-name" size="4" style="" id="prefab-text" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}">
+<label for="letter-spacing">Letter Spacing<br><input value="1.75" name="prefab-name" size="4" style="" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="letter-spacing">
 </label>
 
 
 <label for="line-spacing">Line Spacing<br><input value="3" size="4" style="" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="line-spacing" name="line-spacing" placeholder="3">
-</label></div><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced"></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text alpha-only hidden">Font<br><div class="custom-select" style="">
+</label></div><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text advanced"></div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text alpha-only">Font<br><div class="custom-select" style="">
 <select style="" id="font">
   <option value="0">Inconsolata</option>
   <option value="1">Major Mono Display</option>
 <option value="2">Hellovetica</option><option value="3">PoorStory</option>
 </select>
-</div></div><hr style="width: 100%;"><div style="margin-left: 1%;" id="file-upload-wrapper" class="input-wrapper text file-upload legacy-only">Upload your theme to select colors!<br><hr class="break"><input type="file" id="file-input" accept=".lst" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\themes">
+</div></div><hr style="width: 100%;"><div style="margin-left: 1%;" id="file-upload-wrapper" class="input-wrapper text file-upload legacy-only hidden">Upload your theme to select colors!<br><hr class="break"><input type="file" id="file-input" accept=".lst" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\themes">
 <hr class="break">
 <div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 1: <br><label id="obj-col-1" style="background: rgb(0, 0, 0);" class="color"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">Color 2: <label style="background: rgb(0, 0, 0);" id="obj-col-1-1" class="color"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
 
-</div><div style="margin-left: 1%;width: 99%;" id="file-upload-wrapper" class="input-wrapper text file-upload alpha-only hidden">Upload your level to select a theme!<br><hr class="break"><input type="file" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\editor" accept=".vgd" id="file-input-alpha">
+</div><div style="margin-left: 1%;width: 99%;" id="file-upload-wrapper" class="input-wrapper text file-upload alpha-only">Upload your level to select a theme!<br><hr class="break"><input type="file" value="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia\beatmaps\editor" accept=".vgd" id="file-input-alpha">
 <hr class="break">Select Theme<br><div style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;" id="theme-select"></div><hr class="break">
 <div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;width: fit-content;">Color 1: <br><label style="background: rgb(0, 0, 0);" class="color focused" id="obj-col-1-a"><input name="color" class="color" type="radio" style="" value="0" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-a"><input name="color" class="color" type="radio" style="" value="1" for="" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-a"><input name="color" class="color" type="radio" style="" value="2" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-a"><input name="color" class="color" type="radio" style="" value="3" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-a"><input name="color" class="color" type="radio" style="" value="4" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-a"><input name="color" class="color" type="radio" style="" value="5" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-a"><input name="color" class="color" type="radio" style="" value="6" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-a"><input name="color" class="color" type="radio" style="" value="7" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-a"><input name="color" class="color" type="radio" style="" value="8" onclick="for (i=0;i<document.getElementsByName('color').length;i++) {document.getElementsByName('color')[i].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div><hr class="break"><div id="color-select" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;width: fit-content;">Color 2: <label style="background: rgb(0, 0, 0);" class="color focused" id="obj-col-1-1-a"><input class="color" type="radio" style="" value="0" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-2-1-a"><input class="color" type="radio" style="" value="1" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span style="" class="color"></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-3-1-a"><input class="color" type="radio" style="" value="2" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-4-1-a"><input class="color" type="radio" style="" value="3" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-5-1-a"><input class="color" type="radio" style="" value="4" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-6-1-a"><input class="color" type="radio" style="" value="5" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-7-1-a"><input class="color" type="radio" style="" value="6" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-8-1-a"><input class="color" type="radio" style="" value="7" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label><label style="background: rgb(0, 0, 0);" class="color" id="obj-col-9-1-a"><input class="color" type="radio" style="" value="8" name="color-2" onclick="for (ii=0;ii<document.getElementsByName('color-2').length;ii++) {document.getElementsByName('color-2')[ii].parentElement.classList.remove('focused');};this.parentElement.classList.add('focused')"><span class="red color" style=""></span></label></div>
 
@@ -391,5 +428,6 @@ Prefab Text<br>
 Get started on the left to make something cool!"></textarea>
 </label></div></div>
 </div>
+
 
 </body></html>
