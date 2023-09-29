@@ -85,7 +85,8 @@ document.getElementById("obj-col-6-1-a").style.background = "#" + theme.themes[a
 document.getElementById("obj-col-7-1-a").style.background = "#" + theme.themes[activeTheme].obj[6]
 document.getElementById("obj-col-8-1-a").style.background = "#" + theme.themes[activeTheme].obj[7]
 document.getElementById("obj-col-9-1-a").style.background = "#" + theme.themes[activeTheme].obj[8]
-}</script><script id="parser">function parseAndRun() {
+}</script><script id="parser">
+function parseAndRun() {
 try {
 
 for (i=0;i<document.getElementsByClassName("error").length;i++) {
@@ -103,6 +104,18 @@ if (document.getElementById('prefab-name').value == "Magic 8 Ball") {
   }
 }
 
+if (document.getElementById('prefab-name').value == "Magic 9 Ball") {
+  document.getElementById('prefab-text-div').firstChild.textContent = "ask somethn idk"
+  if (document.getElementById('prefab-text').value.includes("?")) {
+    document.getElementById("output").value = ["no shit", "sure..????", "idk man", "probly??", "nah", "fuck no", "i need a nap", "nuh uh"][Math.floor(Math.random()*8)]
+    return;
+  } else {
+    document.getElementById("output").value = "ask somethin you dumbass or dont idk"
+    return;
+  }
+}
+
+
 document.getElementById('prefab-text-div').firstChild.textContent = "Prefab Text"
 
 if (document.getElementsByName("format")[0].checked == true) {
@@ -112,19 +125,19 @@ if (document.getElementsByName("format")[0].checked == true) {
 if (!document.getElementById('prefab-name').value == "") {params.prefabName = document.getElementById('prefab-name').value}
 else {document.getElementById('prefab-name').classList.add("error");document.getElementById("output").value = "Error: Your prefab needs a name!";return;}
 
-if (!document.getElementById('prefab-text').value == "") {params.prefabName = document.getElementById('prefab-text').value}
+if (!document.getElementById('prefab-text').value == "") {params.text = document.getElementById('prefab-text').value}
 else {document.getElementById('prefab-text').classList.add("error");document.getElementById("output").value = "Error: You need something to say!";return;}
 
-if (!document.getElementById('time').value == "") {params.prefabName = document.getElementById('time').value}
+if (!document.getElementById('time').value == "") {params.letter_delay = document.getElementById('time').value}
 else {document.getElementById('time').classList.add("error");document.getElementById("output").value = "Error: You need a time delay!";return;}
 
-if (!document.getElementById('ease-delay').value == "") {params.prefabName = document.getElementById('ease-delay').value}
+if (!document.getElementById('ease-delay').value == "") {params.easeTime = document.getElementById('ease-delay').value}
 else {document.getElementById('ease-delay').classList.add("error");document.getElementById("output").value = "Error: You need an ease delay!";return;}
 
-if (!document.getElementById('letter-spacing').value == "") {params.prefabName = document.getElementById('letter-spacing').value}
+if (!document.getElementById('letter-spacing').value == "") {params.letter_space = document.getElementById('letter-spacing').value}
 else {document.getElementById('letter-spacing').classList.add("error");document.getElementById("output").value = "Error: You need a letter spacing!";return;}
 
-if (!document.getElementById('line-spacing').value == "") {params.prefabName = document.getElementById('line-spacing').value}
+if (!document.getElementById('line-spacing').value == "") {params.line_space = document.getElementById('line-spacing').value}
 else {document.getElementById('line-spacing').classList.add("error");document.getElementById("output").value = "Error: You need line spacing!";return;}
 
 params.extraTags = document.getElementById('extra-tags').value
@@ -144,7 +157,8 @@ document.getElementById("output").value = result
   document.getElementById("output").value = `Oops! There was an error unaccounted for. Please report this! The error details are below:\n\n${whoops}`
   return;
 }
-}</script>
+}
+</script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
 <style id="TypeText_CSS">
   body {
