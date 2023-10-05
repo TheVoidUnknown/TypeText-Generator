@@ -208,8 +208,8 @@ if (params.legacy) {
 params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
 params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
 } else {
-params.colorEase = document.getElementsByClassName("focused")[0].firstChild.value
-params.obj_color = document.getElementsByClassName("focused")[1].firstChild.value
+document.querySelector('[id$="-a"].focused').firstChild.value
+document.querySelector('[id$="-1-a"].focused').firstChild.value
 }
 let result = generatePrefab(params)
 document.getElementById("output").value = result
