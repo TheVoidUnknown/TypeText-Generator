@@ -1,41 +1,32 @@
-// TypeText generator v1.31 by VoidUnknown
+// TypeText generator v1.4 by VoidUnknown
 // Please report bugs to @thevoidunknown via discord
 /* 
+
   Note:
   <br> tags are supported, and will create an appropriate line break in text.
   <p> tags will create a pause for x seconds, E.G. <p0.5> will pause for 0.5 seconds.
+  <shake> tags will make text inside shake, E.G. <shake0.2>beans</shake> will make only "beans" shake. 0.2 is the intensity.
 
-  All other tags such as <b>, <i>, and etc must be put in extraTags.
 */
 
 let params = {
   "legacy": false, // Whether to make a prefab for Legacy or Alpha editor. Default is Alpha.
   "prefabName": "Epic Monologue", // The name of the prefab
-  "text": "I've come to kill you nano!", // Text to "type" out
+  "text": "<shake0.2>I've come to kill you nano!", // Text to "type" out
   "letter_space": 1.75, // Spacing between letters, 1.75 is best for default font.
   "line_space": 3, // Spacing between lines when <br> is used
-  "letter_delay": 1, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
+  "letter_delay": 4, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
   "obj_depth": 20, // Render depth of all the objects
   "obj_color": 0, // Color of the objects, 0 is the leftmost color of the theme
   "colorEase": 3, // The color to ease from when the letter spawns
-  "lifetime": 10, // How many seconds to live after text is done
+  "lifetime": 3, // How many seconds to live after text is done
   "obj_layer": 1, // Doesn't matter, is only used for filler.
   "font": ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][0], // Font to use, 0 is default font. Disabled on legacy.
-  "extraTags": "<b>",// Extra HTML tags to use on the text, such as <b> or <i>
+  "extraTags": "",// Extra HTML tags to use on the text, such as <b> or <i>
   "cursor": "", //"█" // Optional, is placed in front of each letter to sell the illusion of typing in a terminal
   "easeTime": 0.75, // The time it takes each letter to ease
   "easeType": "popup", // The "fashion" in which letters appear
-  /*
-        "flutter" - Letters will scale from left to right with outelastic
-        "flutter-stack" - Letters will scale from left to right with outcirc, as well as spawn stacked on the last letter then move to its position
-        "terminal" - Letters will spawn instantly with no easing
-        "popup" - Letters will scale from bottom to top with outcirc
-        "zipper" - Popup, but letters will swap between popping up and down
-        "smooth" - No funny tricks, just a smooth transition
 
-        custom easings are still experimental.
-  */
-  
 
 
   // Here be dragons! Dont use these params unless you know what you're doing!
@@ -119,7 +110,18 @@ let prefab_padding_start
 let ii = 0
 let skipObjectPush = false
 let parsedTimerTag
-
+let shakeTime = 0
+let events
+let fx = {
+  "bold": false,
+  "italic": false,
+  "underline": false, 
+  "strikethrough": false,
+  "shake": false,
+  "shakeIntensity": 0.3,
+  "shakeSpeed": 0.1,
+  "alpha": 100
+}
 
 function shuffle(array) { // Totally not stolen from StackOverflow
     let currentIndex = array.length,  randomIndex;
@@ -155,28 +157,48 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
   let pos_y = 0-(line*params.line_space)
 
     if (params.easeType == "flutter") {
+      // Ease in
       startKeyframes["scale"].push(makeDoubleStartKeyframe(0,2.0,"Linear"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutElastic"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"Linear"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,0,2.0,"InElastic"))
     }
 
     if (params.easeType == "flutter-stack") {
+      // Ease in
       startKeyframes["move"].push(makeDoubleStartKeyframe((pos-params.letter_space),pos_y,"Linear"))
       startKeyframes["scale"].push(makeDoubleStartKeyframe(0,2.0,"Linear"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutElastic"))
       keyframes["move"].push(makeDoubleKeyframe(`${params.easeTime}`,pos,pos_y,"OutCirc"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutElastic"))
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime}`,pos,pos_y,"OutCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,0,2.0,"InElastic"))
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,pos-params.letter_space,pos_y,"InCirc"))
     }
 
     if (params.easeType == "popup") {
+      // Ease in
       startKeyframes["move"].push(makeDoubleStartKeyframe(pos,pos_y-(params.line_space/2),"Linear"))
       startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,0,"Linear"))
       keyframes["move"].push(makeDoubleKeyframe(`${params.easeTime}`,pos,pos_y,"OutCirc"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutCirc"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime}`,pos,pos_y,"OutCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutCirc"))
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,pos,pos_y-(params.line_space/2),"InCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,2.0,0,"InCirc"))
     }
 
     if (params.easeType == "zipper") {
+      // Ease in
       if (ii % 2 == 0) {
         startKeyframes["move"].push(makeDoubleStartKeyframe(pos,pos_y-(params.line_space/2),"Linear"))
       } else {
@@ -186,15 +208,27 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
       keyframes["move"].push(makeDoubleKeyframe(`${params.easeTime}`,pos,pos_y,"OutCirc"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutCirc"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      startKeyframes["move"].push(makeDoubleKeyframe(`${params.lifetime}`,pos,pos_y,"InCirc"))
+      startKeyframes["move"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,pos,pos_y-(params.line_space/2),"InCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"InCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,2.0,0,"InCirc"))
     }
 
     if (params.easeType == "smooth") {
+      // Ease in
       startKeyframes["scale"].push(makeDoubleStartKeyframe(0,2.0,"Linear"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutCirc"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutCirc"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,0,2.0,"InCirc"))
     }
 
     if (params.easeType == "bounce") {
+      // Ease in
       startKeyframes["color"].push(makeSingleStartKeyframe(params.colorEase,"Linear"))
       startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,0,"Linear"))
       startKeyframes["move"].push(makeDoubleStartKeyframe(pos,pos_y-(params.line_space/2),"Linear"))
@@ -204,27 +238,50 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
       keyframes["rotation"].push(makeSingleKeyframe(`${params.easeTime}`,30,"OutElastic"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutElastic"))
       keyframes["move"].push(makeDoubleKeyframe(`${params.easeTime}`,pos,pos_y,"OutElastic"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutElastic"))
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime}`,pos,pos_y,"OutElastic"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,2.0,0,"InBack"))
+      keyframes["move"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,pos,pos_y-(params.line_space/2),"InBack"))
     }
 
     if (params.easeType == "stretch") {
+      // Ease in
       startKeyframes["scale"].push(makeDoubleStartKeyframe(3,0,"Linear"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutElastic"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"InOutSine"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutElastic"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,3.0,0,"InBack"))
     }
 
     if (params.easeType == "elastic") {
+      // Ease in
       startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,0,"Linear"))
       keyframes["scale"].push(makeDoubleKeyframe(`${params.easeTime}`,2.0,2.0,"OutBack"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))
+
+      // Ease out
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime}`,2.0,2.0,"OutBack"))
+      keyframes["scale"].push(makeDoubleKeyframe(`${params.lifetime+params.easeTime}`,2.0,0,"InBack"))
     }
 
     if (params.easeType == "custom") {
       // Please only use this if you know what you're doing
-
-      // Example ease type
       startKeyframes["color"].push(makeSingleStartKeyframe(params.colorEase,"Linear"))
       startKeyframes["scale"].push(makeDoubleStartKeyframe(2.0,2.0,"Linear"))
       keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"InElastic"))
+    }
+
+
+
+    if (fx.shake) {
+      keyframes["move"] = []
+      for (shakeTime=fx.shakeSpeed;shakeTime<params.lifetime;shakeTime+=fx.shakeSpeed) {
+        keyframes["move"].push(makeRandomKeyframe(shakeTime,(pos+fx.shakeIntensity),(pos_y+fx.shakeIntensity),(pos+(0-fx.shakeIntensity)),(pos_y+(0-fx.shakeIntensity)),1,"OutElastic"));
+      }
     }
 
   // Fill missing keyframes with defaults, to prevent invalid objects
@@ -238,12 +295,16 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
   if (keyframes["rotation"].length == 0) {keyframes["rotation"].push(makeSingleKeyframe(`${params.easeTime}`,0,"Instant"))}
   if (keyframes["color"].length == 0) {keyframes["color"].push(makeSingleKeyframe(`${params.easeTime}`,color,"OutSine"))}
 
+  let appliedTags = ""
+  if (fx.bold) {appliedTags=appliedTags+"<b>"}
+  if (fx.italic) {appliedTags=appliedTags+"<i>"}
+
   if (params.legacy) {
-    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${params.extraTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${params.lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${params.obj_bin}","layer":"${params.obj_layer}"},"events":{"pos":[${startKeyframes["move"]},${keyframes["move"]}],"sca":[${startKeyframes["scale"]},${keyframes["scale"]}],"rot":[${startKeyframes["rotation"]},${keyframes["rotation"]}],"col":[${startKeyframes["color"]},${keyframes["color"]}]}}`
+    return `{"id":"${id}","p":"${pid}","d":"${depth}","ot":2,"st":"${startPos}","text":"${appliedTags}${char}","name":"Text ${char}","shape":"4","akt":2,"ako":${params.lifetime},"o":{"x":"0","y":"0"},"ed":{"shrink":"True","bin":"${params.obj_bin}","layer":"${params.obj_layer}"},"events":{"pos":[${startKeyframes["move"]},${keyframes["move"]}],"sca":[${startKeyframes["scale"]},${keyframes["scale"]}],"rot":[${startKeyframes["rotation"]},${keyframes["rotation"]}],"col":[${startKeyframes["color"]},${keyframes["color"]}]}}`
   } else if (params.customFont) {
     return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${params.lifetime},"ot":2,"n":"Text ${char}","text":"${customFontDict[char]}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${params.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   } else {
-    return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${params.lifetime},"ot":2,"n":"Text ${char}","text":"${params.extraTags}<font=${letterfont}>${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${params.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
+    return `{"id":"${id}","p_id":"${pid}","ak_t":2,"ak_o":${params.lifetime},"ot":2,"n":"Text ${char}","text":"${appliedTags}<font=${letterfont}>${char}","o":{"x":-0.5,"y":0.0},"s":4,"ed":{"b":${params.obj_bin},"co":true,"l":5},"e":[{"k":[${startKeyframes["move"]},${keyframes["move"]}]},{"k":[${startKeyframes["scale"]},${keyframes["scale"]}]},{"k":[${startKeyframes["rotation"]},${keyframes["rotation"]}]},{"k":[${startKeyframes["color"]},${keyframes["color"]}]}],"p_t":"111","p_o": [${offset}, ${offset}, ${offset}],"d":${depth},"st":${startPos}}`
   }
 } // Object templates
 
@@ -281,6 +342,14 @@ function makeSingleKeyframe(time,x,ease) { // Return keyframe with a single valu
   }
 }
 
+function makeRandomKeyframe(time,x,y,x2,y2,type,ease) {
+  if (params.legacy) {
+    return ``
+  } else {
+    return `{"ct":"${ease}","t":${time},"r":${type},"ev":[${x},${y}],"er":[${x2},${y2}]}`
+  }
+}
+
 function makeCursor(pid,pos,color,depth,startPos,cursorChar) { // Define function to generate "cursor"
   let keyframes = []
   cursorTime = 0
@@ -299,48 +368,86 @@ function makeCursor(pid,pos,color,depth,startPos,cursorChar) { // Define functio
   }
 } // Known bug, does not work well when the text is actively moving
 
+function makeUnderline(pid,pos,color,depth,startPos) {
+
+}
 
 function generatePrefab() {
 let obj_pos = 0 // Start text 0 units away from parent
 let spawnPos = 0 // Start 0 seconds away from prefab spawn
+let a = 0
+let text = params.text.split('')
+let result = ""
 parentOffset = 0
 objects = []
 obj_line = 0
 letters = params.text.split("")
 ii = 0
 skipObjectPush = false
+shakeTime = 0
 
 for (i=0; i<params.text.length; i++) { // For 0 to n letters
 
   let letter = letters[i]
   console.info(`Letter ${i+1} of ${params.text.length} parsing. Current Char: ${letters[i]}`)
   ii = ii + 1
+  if (letter == " ") {obj_pos += params.letter_space;skipObjectPush = true;}
 
+  for (a=0;a<text.length;a++) { // Iterate through letters
 
-  if (letters[i] == "<" && letters[i+1] == "b" && letters[i+2] == "r" && letters[i+3] == ">") { // Detect line breaks
+    tag = ""
+    if (text[i] == "<" && !(text[i-1] == "\\")) { // if < is found without escape character \
+      i++ // dont capture the <
+      skipObjectPush = true
 
-    obj_pos = 0
-    obj_line += 1
-    i += 4
-    letter = letters[i]
+      while (text[i] != ">") { // iterate until >
+        tag += text[i] // grab data inbetween
+        i++
+        if (i > 9999) {throw new Error('Tag doesn\'t have a closing bracket!')}
+      }
+      console.log(tag)
 
-  }
+      if (/p/.test(tag)) {// If <p> tag, insert delay
+        spawnPos += parseFloat(tag.replaceAll('p',''))
+        obj_pos += params.letter_space
+        break;
+      }
 
-  if (letters[i] == "<" && letters[i+1] == "p") { // Detect <p> tags
+      if (/br/.test(tag)) {// If <br> tag, insert line break
+        obj_pos = 0
+        obj_line += 1
+        break;
+      }
 
-    parsedTimerTag = ""
-    i += 2
+      if (/b/.test(tag)) {// If <b> tag, set bold true
+        fx.bold = true
+        break;
+      }
+      if (/\/b/.test(tag)) {// If </b> tag, set bold false
+        fx.bold = false
+        break;
+      }
 
-    for (i=i; letters[i] != ">"; i++) {
+      if (/i/.test(tag)) {// If <i> tag, set italic true
+        fx.italic = true
+        break;
+      }
+      if (/\/i/.test(tag)) {// If </i> tag, set italic false
+        fx.italic = false
+        break;
+      }
 
-      if (i>999) {console.error("Pause tag loop detected!");break}
-      parsedTimerTag = parsedTimerTag + letters[i] // Grab the timer delay from text 
+      if (/shake/.test(tag)) {// If <shake> tag, set shake true
+        fx.shakeIntensity = parseFloat(tag.replaceAll('shake',''))
+        fx.shake = true
+        break;
+      }
+      if (/\/shake/.test(tag)) {// If </shake> tag, set shake false
+        fx.shake = false
+        break;
+      }
 
     }
-
-      spawnPos += parseFloat(parsedTimerTag) // Parse string as float and add it to spawnPos
-      skipObjectPush = true // Skip object push to prevent duplicate characters
-      letter = letters[i] // Update latest character
 
   }
 
@@ -359,6 +466,7 @@ for (i=0; i<params.text.length; i++) { // For 0 to n letters
     obj_pos += params.letter_space
     spawnPos += (params.letter_delay/params.text.length)
     parentOffset += params.obj_interval
+    result += letter
 
   }
 
@@ -376,11 +484,14 @@ if (params.legacy) {
   prefab_padding_start = `{"n":"${params.prefabName}","type":11,"preview":"${preview}","o":0.0,"objs":[{"id":"${parent_id}","ak_t":2,"ak_o":1.0,"ot":3,"n":"Text Parent","ed":{"l":5},"e":[{"k":[{"ct":"Linear","ev":[0.0,0.0]}]},{"k":[{"ct":"Linear","ev":[1.0,1.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]},{"k":[{"ct":"Linear","ev":[0.0]}]}],"p_t":"101","d":20},`
 }
 
-// Spit out the prefab in plaintext
 if (params.cursor != ""){
   objects.push(makeCursor(parent_id,0,params.obj_color,params.obj_depth,0,params.cursor))
 }
+console.info(result)
+// Spit out the prefab in plaintext
 return prefab_padding_start + objects.join() + "]}"
 //console.log(`Paste to "TypeText_${rand}.${params.legacy == false ? "vgp" : "lsp"}" in "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\prefabs"`)
 //console.log("Made by VoidUnknown, idea rightfully stolen from MotionIII")
 }
+
+//copy(generatePrefab(params));
