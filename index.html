@@ -145,9 +145,7 @@ function download_file(name, contents, mime_type) {
 
         dlink.click();
         dlink.remove();
-    }</script><script id="parser">
-
-function parseAndRun() {
+    }</script><script id="parser">function parseAndRun() {
 try {
 
 for (i=0;i<document.getElementsByClassName("error").length;i++) {
@@ -180,6 +178,11 @@ if (document.getElementById('prefab-name').value == "Magic 9 Ball") {
 document.getElementById('prefab-text-div').firstChild.textContent = "Prefab Text"
 
 if (document.getElementsByName("format")[0].checked == true) {params.legacy = false} else {params.legacy = true}
+
+params.obj_depth = parseInt(document.getElementById("object-depth").value)
+
+if (!document.getElementById('parent-offset').value == "") {params.obj_interval = parseFloat(document.getElementById('parent-offset').value)}
+else {document.getElementById('parent-offset').classList.add("error");document.getElementById("output").value = "Error: You need a parent offset time! You can enter 0 for no offset.";return;}
 
 if (!document.getElementById('prefab-name').value == "") {params.prefabName = document.getElementById('prefab-name').value}
 else {document.getElementById('prefab-name').classList.add("error");document.getElementById("output").value = "Error: Your prefab needs a name!";return;}
@@ -216,8 +219,7 @@ document.getElementById("output").value = result
   document.getElementById("output").value = `Oops! There was an error unaccounted for. Please report this! The error details are below:\n\n${whoops}`
   return;
 }
-}
-</script>
+}</script>
 <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');</style>
 <style id="TypeText_CSS">
   body {
@@ -416,7 +418,45 @@ background-position: center !important;
 .focused {
 border: 2px solid #f0f0f0;
 }
-</style>
+
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+.slider {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #f0f0f0
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.slider:hover {
+  opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 20px;
+  background: #2f2f2f;
+  cursor: pointer; 
+  border-radius: 4px;
+}
+
+.slider::-moz-range-thumb {
+  width: 40px;
+  height: 20px;
+  background: #2f2f2f;
+  cursor: pointer;
+  border-radius: 4px;
+}</style>
 <script type="text/javascript" src="https://thevoidunknown.github.io/TypeText-Generator/typetext_generator.js"></script>
 </head>
 <body data-new-gr-c-s-check-loaded="8.907.0" data-gr-ext-installed="" style="overflow: hidden;" data-new-gr-c-s-loaded="8.907.0" data-gr-ext-disabled="forever">
@@ -446,7 +486,12 @@ Please note the CSS is a work in progress.</div></div>
 </label>
 </div>
 
-<hr style="width: 100%;"><div style="margin-left: 1%;width: 100%;" class="input-wrapper text" id="prefab-name-div">Prefab Name<br>
+<hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;width: 100%;flex-direction: row !important;justify-content: space-between;gap: 8px;" class="input-wrapper text advanced"><div style="width: 99%;">Render Depth<br><div class="slidecontainer" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">
+  <input type="range" class="slider" style="width: 100%;" min="0" max="40" value="20" snap="1" oninput="document.getElementById('depth-text').innerHTML=this.value" id="object-depth">
+<div id="depth-text" style="width: 40px;height: 100%;background: #494949;padding: 6px;border-radius: 4px;text-align: center;">20</div></div></div><br><div style="margin-left: 1%;width: 35%;" class="input-wrapper text" id="prefab-name-div">Parent Offset<br>
+
+<label for="prefab-name"><input type="text" size="4" style="" class="" placeholder="0.01" name="parent-offset" id="parent-offset" value="0.01" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}">
+</label></div></div><hr style="width: 100%;"><div style="margin-left: 1%;width: 100%;" class="input-wrapper text" id="prefab-name-div">Prefab Name<br>
 
 <label for="prefab-name"><input value="Epic Monologue" type="text" name="prefab-name" size="15" placeholder="Epic Monologue" style="" id="prefab-name" oninput="if (this.value.length < 15) {this.size = 15} else {this.size = this.value.length}" class="">
 </label></div><hr class="break"><div style="margin-left: 1%;width: 100%;" class="input-wrapper text" id="prefab-text-div">Prefab Text<br>
@@ -503,6 +548,7 @@ Please note the CSS is a work in progress.</div></div>
 Get started on the left to make something cool!"></textarea>
 </label></div><hr class="break"><button id="download" class="button" style="width: 100%;font-size: 20;" download="" onclick="parseAndRun();if(!document.getElementById('output').value == '' &amp;&amp; !document.getElementById('output').value.includes('Error')){download_file(`${params.prefabName}.${params.legacy == true ? 'lsp' : 'vgp'}`, document.getElementById('output').value)}"><b>Download Prefab</b></button></div>
 </div>
+
 
 
 
