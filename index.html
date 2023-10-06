@@ -146,6 +146,7 @@ function download_file(name, contents, mime_type) {
         dlink.click();
         dlink.remove();
     }</script><script id="parser">
+
 function parseAndRun() {
 try {
 
@@ -178,9 +179,7 @@ if (document.getElementById('prefab-name').value == "Magic 9 Ball") {
 
 document.getElementById('prefab-text-div').firstChild.textContent = "Prefab Text"
 
-if (document.getElementsByName("format")[0].checked == true) {
-  params.legacy = false
-} else {params.legacy = true}
+if (document.getElementsByName("format")[0].checked == true) {params.legacy = false} else {params.legacy = true}
 
 if (!document.getElementById('prefab-name').value == "") {params.prefabName = document.getElementById('prefab-name').value}
 else {document.getElementById('prefab-name').classList.add("error");document.getElementById("output").value = "Error: Your prefab needs a name!";return;}
@@ -188,19 +187,19 @@ else {document.getElementById('prefab-name').classList.add("error");document.get
 if (!document.getElementById('prefab-text').value == "") {params.text = document.getElementById('prefab-text').value}
 else {document.getElementById('prefab-text').classList.add("error");document.getElementById("output").value = "Error: You need something to say!";return;}
 
-if (!document.getElementById('time').value == "") {params.letter_delay = document.getElementById('time').value}
+if (!document.getElementById('time').value == "") {params.letter_delay = parseFloat(document.getElementById('time').value)}
 else {document.getElementById('time').classList.add("error");document.getElementById("output").value = "Error: You need a time delay!";return;}
 
-if (!document.getElementById('ease-delay').value == "") {params.easeTime = document.getElementById('ease-delay').value}
+if (!document.getElementById('ease-delay').value == "") {params.easeTime = parseFloat(document.getElementById('ease-delay').value)}
 else {document.getElementById('ease-delay').classList.add("error");document.getElementById("output").value = "Error: You need an ease delay!";return;}
 
-if (!document.getElementById('letter-spacing').value == "") {params.letter_space = document.getElementById('letter-spacing').value}
+if (!document.getElementById('letter-spacing').value == "") {params.letter_space = parseFloat(document.getElementById('letter-spacing').value)}
 else {document.getElementById('letter-spacing').classList.add("error");document.getElementById("output").value = "Error: You need a letter spacing!";return;}
 
-if (!document.getElementById('line-spacing').value == "") {params.line_space = document.getElementById('line-spacing').value}
+if (!document.getElementById('line-spacing').value == "") {params.line_space = parseFloat(document.getElementById('line-spacing').value)}
 else {document.getElementById('line-spacing').classList.add("error");document.getElementById("output").value = "Error: You need line spacing!";return;}
 
-params.extraTags = document.getElementById('extra-tags').value
+//params.extraTags = document.getElementById('extra-tags').value
 params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
 params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
 
@@ -455,9 +454,9 @@ Please note the CSS is a work in progress.</div></div>
 </label>
 
 
-</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text">Extra Tags<br>
+<!--</div><hr class="break"><div id="inputs-wrapper" style="margin-left: 1%;" class="input-wrapper text">Extra Tags<br>
 <label for="extra-tags"><input size="4" style="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="extra-tags" name="extra-tags" placeholder="<b>" class="">
-</label>
+</label>-->
 
 
 </div>
