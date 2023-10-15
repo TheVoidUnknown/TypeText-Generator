@@ -471,7 +471,8 @@ Please note the CSS is a work in progress.</div></div>
   <option value="1">Advanced</option>
 <option value="2">Debug</option>
 </select>
-</div></div><div class="legacy-only hidden" style="width: 120px;color: #f8f8f8;">(Boomer mode)</div><hr style="width: 100%;">
+</div></div><div class="legacy-only hidden" style="width: 120px;color: #f8f8f8;">(Boomer mode)</div>
+<!--hr style="width: 100%;">
 <div id="inputs-wrapper" class="inputs-wrapper text">
 <label class="radio" id="alphalabel">
 <input id="alpha
@@ -484,7 +485,7 @@ Please note the CSS is a work in progress.</div></div>
                       " name="format" onclick="for(i=0;i<document.getElementsByClassName('alpha-only').length;i++){document.getElementsByClassName('alpha-only')[i].classList.add('hidden');};for(i=0;i<document.getElementsByClassName('legacy-only').length;i++){document.getElementsByClassName('legacy-only')[i].classList.remove('hidden');};">
 <span class="radio">Legacy</span>
 </label>
-</div>
+</div-->
 
 <hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;width: 100%;flex-direction: row !important;justify-content: space-between;gap: 8px;" class="input-wrapper text advanced"><div style="width: 99%;">Render Depth<br><div class="slidecontainer" style="display: flex;flex-direction: row;justify-content: space-between;gap: 4px;">
   <input type="range" class="slider" style="width: 100%;" min="0" max="40" value="20" snap="1" oninput="document.getElementById('depth-text').innerHTML=this.value" id="object-depth">
