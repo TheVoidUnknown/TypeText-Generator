@@ -10,11 +10,11 @@
 */
 
 let params = {
-  "prefabName": "Epic TypeTest", // The name of the prefab
-  "text": "<shake1>indeed<p0.2><b>very</b> shakey</shake>", // Text to "type" out
+  "prefabName": "Epic Monologue", // The name of the prefab
+  "text": "<shake0.2>I've come to kill you nano!</shake>", // Text to "type" out
   "letter_space": 1.75, // Spacing between letters, 1.75 is best for default font.
   "line_space": 3, // Spacing between lines when <br> is used
-  "letter_delay": 2, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
+  "letter_delay": 1, // How long it takes to finish "typing" the text, in seconds. Does not include <p> tags.
   "obj_depth": 20, // Render depth of all the objects
   "obj_color": 0, // Color of the objects, 0 is the leftmost color of the theme
   "colorEase": 3, // The color to ease from when the letter spawns
