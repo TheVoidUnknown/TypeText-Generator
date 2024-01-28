@@ -203,7 +203,7 @@ if (!document.getElementById('line-spacing').value == "") {params.line_space = p
 else {document.getElementById('line-spacing').classList.add("error");document.getElementById("output").value = "Error: You need line spacing!";return;}
 
 //params.extraTags = document.getElementById('extra-tags').value
-params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic"][document.getElementById("ease-type").value]
+params.easeType = ["flutter","popup","zipper","smooth","bounce","stretch","elastic","instant"][document.getElementById("ease-type").value]
 params.font = ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][document.getElementById("font").value]
 
 if (params.legacy) {
@@ -518,7 +518,7 @@ Please note the CSS is a work in progress.</div></div>
 <select style="" id="ease-type">
   <option value="0">Flutter</option>
   <option value="1">Popup</option>
-<option value="2">Zipper</option><option value="3">Smooth</option><option value="4">Bounce</option><option value="5">Stretch</option><option value="6">Elastic</option>
+<option value="2">Zipper</option><option value="3">Smooth</option><option value="4">Bounce</option><option value="5">Stretch</option><option value="6">Elastic</option><option value="7">Instant</option>
 </select>
 </div></div><hr style="width: 100%;"><div id="inputs-wrapper" style="margin-left: 1%;" class="inputs-wrapper text advanced">
 <label for="letter-spacing">Letter Spacing<br><input value="1.75" name="prefab-name" size="4" style="" placeholder="1.75" "="" type="text" oninput="if (this.value.length < 4) {this.size = 4} else {this.size = this.value.length}" id="letter-spacing">
