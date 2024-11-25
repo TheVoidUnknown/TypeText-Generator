@@ -229,7 +229,7 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
     "ak_o":params.lifetime,
     "ot":2,
     "n":`Text ${char}`,
-    "text":`${appliedTags}<font=${letterfont}>${char}`,
+    "text":`${appliedTags}<font="${letterfont}">${char}`,
     "o":{"x":-0.5,"y":0.0},
     "s":4,
     "ed":{
