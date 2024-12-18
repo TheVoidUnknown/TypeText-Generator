@@ -20,7 +20,7 @@ let params = {
   "colorEase": 3, // The color to ease from when the letter spawns
   "lifetime": 3, // How many seconds to live after text is done
   "obj_layer": 1, // Doesn't matter, is only used for filler.
-  "font": ["Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][0], // Font to use, 0 is default font. Disabled on legacy.
+  "font": ["Default", "Inconsolata", "MajorMonoDisplay", "Hellovetica", "PoorStory"][0], // Font to use, 0 is default font. Disabled on legacy.
   "extraTags": "",// Extra HTML tags to use on the text, such as <b> or <i>
   "cursor": "", //"█" // Optional, is placed in front of each letter to sell the illusion of typing in a terminal
   "easeTime": 0.5, // The time it takes each letter to ease
@@ -229,7 +229,7 @@ function makeObject(pid,char,pos,color,depth,startPos,offset,letterfont,line) { 
     "ak_o":params.lifetime,
     "ot":2,
     "n":`Text ${char}`,
-    "text":`${appliedTags}<font="${letterfont}">${char}`,
+    "text":`${appliedTags}${letterfont === "Default" ? '' : `<font="${letterfont}">`}${char}`,
     "o":{"x":-0.5,"y":0.0},
     "s":4,
     "ed":{
@@ -434,7 +434,6 @@ for (i=0; i<params.text.length; i++) { // For 0 to n letters
         i++
         if (i > 9999) {throw new Error('Tag doesn\'t have a closing bracket!')}
       }
-      console.log(`Tag captured: <${tag}>`)
 
       if (/p/.test(tag)) {// If <p> tag, insert delay
         spawnPos += parseFloat(tag.replaceAll('p',''))
@@ -525,7 +524,6 @@ for (i=0; i<params.text.length; i++) { // For 0 to n letters
 
   if (skipObjectPush) { // If statement to skip pushing an object
     skipObjectPush=false
-    console.info("Push Skipped")
   } else {
     objects.push(makeObject(parent_id,letter,obj_pos,params.obj_color,params.obj_depth,spawnPos,parentOffset,params.font,obj_line))
     obj_pos += params.letter_space
